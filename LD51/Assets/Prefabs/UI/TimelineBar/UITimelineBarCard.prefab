@@ -62,9 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionPrefab: {fileID: 1403191249068539032, guid: 90eebdf435e2a3e48b3e63f25e581904,
     type: 3}
-  testSprite: {fileID: 21300000, guid: 2cfce13e96f102c419c843c17f8ebc0e, type: 3}
-  testSprite2: {fileID: 21300000, guid: bfde9df81b2bce948b9f09c2d3a31dea, type: 3}
   actionContainer: {fileID: 8402959661723538089}
+  imgCostBg: {fileID: 1362470495690358351}
 --- !u!1 &4264343741343291037
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,8 +177,8 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0

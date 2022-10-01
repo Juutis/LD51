@@ -7,13 +7,14 @@ public class UITimelineAction : MonoBehaviour
 {
     [SerializeField]
     private Image imgIcon;
-    public void Initialize(TimelineActionData data)
+    public void Initialize(UICardActionData data)
     {
         imgIcon.sprite = data.Icon;
     }
 }
 
-public struct TimelineActionData
+
+public struct UICardActionData
 {
     public Sprite Icon;
 }

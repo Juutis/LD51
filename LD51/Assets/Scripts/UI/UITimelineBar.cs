@@ -5,6 +5,12 @@ using System.Linq;
 
 public class UITimelineBar : MonoBehaviour
 {
+    public static UITimelineBar main;
+    private void Awake()
+    {
+        main = this;
+    }
+
     [SerializeField]
     private UITimelineCard cardPrefab;
     [SerializeField]
@@ -27,8 +33,6 @@ public class UITimelineBar : MonoBehaviour
     void Start()
     {
         CreateNumbers();
-        CreateEnemyCard();
-        CreatePlayerCard();
     }
 
     private void CreateNumbers()
@@ -62,19 +66,19 @@ public class UITimelineBar : MonoBehaviour
             }
         }
     }
-    private UITimelineCard CreateEnemyCard()
+    public UITimelineCard CreateEnemyCard(UICardData cardData)
     {
-        return CreateCard(enemyCardContainer);
+        return CreateCard(enemyCardContainer, cardData);
     }
-    private UITimelineCard CreatePlayerCard()
+    public UITimelineCard CreatePlayerCard(UICardData cardData)
     {
 
-        return CreateCard(playerCardContainer);
+        return CreateCard(playerCardContainer, cardData);
     }
-    private UITimelineCard CreateCard(Transform container)
+    private UITimelineCard CreateCard(Transform container, UICardData cardData)
     {
         UITimelineCard card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, container);
-        card.Initialize();
+        card.Initialize(cardData);
         return card;
     }
 

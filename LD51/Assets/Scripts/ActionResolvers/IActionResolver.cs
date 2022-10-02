@@ -5,7 +5,15 @@ using UnityEngine;
 public interface IActionResolver
 {
     CardActionType GetActionType();
-    void ResolveSelfAction(int actionAmount);
-    void ResolveTargetAction(int actionAmount);
+    CardEffect ResolveSelfAction(int actionAmount);
+    CardEffect ResolveTargetAction(int actionAmount);
     void ResetTurnEffects();
 }
+
+public enum CardEffect
+{
+    Stun,   // Caster is stunned
+    Dead,   // Caster is dead
+    Killed, // Target was skilled
+    None
+};

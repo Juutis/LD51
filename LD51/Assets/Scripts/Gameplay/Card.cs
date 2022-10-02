@@ -31,5 +31,9 @@ public enum CardActionType
     Defend,
     Wait,
     Heal,
+    Parry,
+    SkipForward,
+    Rewind,
+    Stunned,
     None // No action, shouldn't be in cards
 }

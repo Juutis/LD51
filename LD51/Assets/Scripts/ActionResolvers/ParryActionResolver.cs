@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Character))]
-public class DamageResolver : MonoBehaviour, IActionResolver
+public class ParryActionResolver : MonoBehaviour, IActionResolver
 {
     private Character character;
 
@@ -14,20 +14,23 @@ public class DamageResolver : MonoBehaviour, IActionResolver
 
     public CardEffect ResolveTargetAction(int actionAmount)
     {
-        return character.TakeDamage(actionAmount);
+        return CardEffect.None;
     }
 
     public CardEffect ResolveSelfAction(int actionAmount)
     {
+        Debug.Log($"Parry for {gameObject.name}");
+        character.SetParry(true);
         return CardEffect.None;
     }
 
     public CardActionType GetActionType()
     {
-        return CardActionType.Attack;
+        return CardActionType.Parry;
     }
 
     public void ResetTurnEffects()
     {
+        character.SetParry(false);
     }
 }

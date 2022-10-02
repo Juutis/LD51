@@ -18,20 +18,24 @@ public class CardActionResolver : MonoBehaviour
         }
     }
 
-    public void ResolveSelfAction(CardAction action)
+    public CardEffect ResolveSelfAction(CardAction action)
     {
         if (resolvers.ContainsKey(action.ActionType))
         {
-            resolvers[action.ActionType].ResolveSelfAction(action.ActionAmount);
+            return resolvers[action.ActionType].ResolveSelfAction(action.ActionAmount);
         }
+
+        return CardEffect.None;
     }
 
-    public void ResolveTargetAction(CardAction action)
+    public CardEffect ResolveTargetAction(CardAction action)
     {
         if (resolvers.ContainsKey(action.ActionType))
         {
-            resolvers[action.ActionType].ResolveTargetAction(action.ActionAmount);
+            return resolvers[action.ActionType].ResolveTargetAction(action.ActionAmount);
         }
+
+        return CardEffect.None;
     }
 
     public void ResetTurnEffects()

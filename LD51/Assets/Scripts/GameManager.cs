@@ -6,33 +6,25 @@ using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
-    private GameState currentGameState = GameState.ShuffleHand;
-    [SerializeField]
-    private List<CardConfig> playerDeck = new();
-    [SerializeField]
-    private List<CardConfig> enemyDeck = new();
+    private GameState currentGameState = GameState.NewEnemy;
     [SerializeField]
     private CardActionResolver playerActionResolver;
-    [SerializeField]
+
     private CardActionResolver enemyActionResolver;
+    [SerializeField]
+    private List<CardActionResolver> enemies;
+    private int currentEnemy = -1;
 
-    private Queue<Card> playerCurrentDeck = new();
-    private Queue<Card> enemyCurrentDeck = new();
-
-    private List<Card> playerHand = new();
-    private List<Card> enemyHand = new();
-
-    private const int handSize = 5;
+    private Deck playerDeck;
+    private Deck enemyDeck;
 
     private Timeline playerTimeline;
     private Timeline enemyTimeline;
 
     void Start()
     {
-        enemyTimeline = new(enemyActionResolver);
         playerTimeline = new(playerActionResolver);
-        playerTimeline.SetTargetResolver(enemyActionResolver);
-        enemyTimeline.SetTargetResolver(playerActionResolver);
+        playerDeck = playerActionResolver.GetComponent<Deck>();
     }
 
     // Update is called once per frame
@@ -40,8 +32,14 @@ public class GameManager : MonoBehaviour
     {
         if (currentGameState == GameState.NewEnemy)
         {
-            // TODO: enemyTimeline = new();
+            Debug.Log("New enemy");
+            currentEnemy++;
+            enemyActionResolver = enemies[currentEnemy];
             playerTimeline.Reset();
+            enemyTimeline = new(enemyActionResolver);
+            enemyTimeline.SetTargetResolver(playerActionResolver);
+            playerTimeline.SetTargetResolver(enemyActionResolver);
+            enemyDeck = enemyActionResolver.GetComponent<Deck>();
             // heal player a bit
             currentGameState = GameState.ShuffleHand;
         }
@@ -52,16 +50,14 @@ public class GameManager : MonoBehaviour
                 if (playerTimeline.GetCurrentAction() == null)
                 {
                     Debug.Log("Play cards");
-                    Card card = playerHand[0];
-                    playerHand.RemoveAt(0);
+                    Card card = playerDeck.PlayCard(0);
 
                     playerTimeline.AddCard(card);
                 }
 
                 if (enemyTimeline.GetCurrentAction() == null)
                 {
-                    Card card = enemyHand[0];
-                    enemyHand.RemoveAt(0);
+                    Card card = enemyDeck.PlayCard(0);
 
                     enemyTimeline.AddCard(card);
                 }
@@ -72,13 +68,47 @@ public class GameManager : MonoBehaviour
         else if (currentGameState == GameState.ResolveAction)
         {
             // TODO: Make time forward (and backward?) skip return boolean so it can skip the turn immediately
-            playerTimeline.ResolveActions(CardActionType.Heal);
-            enemyTimeline.ResolveActions(CardActionType.Heal);
-            playerTimeline.ResolveActions(CardActionType.Defend);
-            enemyTimeline.ResolveActions(CardActionType.Defend);
-            playerTimeline.ResolveActions(CardActionType.Attack);
-            enemyTimeline.ResolveActions(CardActionType.Attack);
-            currentGameState = GameState.ResetTurnEffects;
+            if (playerTimeline.SkipForward())
+            {
+                enemyTimeline.SyncCurrentStep(playerTimeline.GetCurrentStep());
+            }
+            else if (enemyTimeline.SkipForward())
+            {
+                playerTimeline.SyncCurrentStep(enemyTimeline.GetCurrentStep());
+            }
+            else
+            {
+                List<CardActionType> actionTypePrecedence = new List<CardActionType>()
+                { CardActionType.Heal, CardActionType.Defend, CardActionType.Parry, CardActionType.Attack, CardActionType.Wait };
+
+                foreach (CardActionType type in actionTypePrecedence)
+                {
+                    CardEffect playerEffect = playerTimeline.ResolveActions(type);
+
+                    if (playerEffect == CardEffect.Killed)
+                    {
+                        // Do stuff
+                        Debug.Log("Enemy killed");
+                        currentGameState = GameState.EnemyDead;
+                        break;
+                    }
+
+                    CardEffect enemyEffect = enemyTimeline.ResolveActions(type);
+
+                    if (enemyEffect == CardEffect.Killed)
+                    {
+                        // Do stuff
+                        Debug.Log("Player killed");
+                        currentGameState = GameState.PlayerDead;
+                        break;
+                    }
+                }
+
+                if (currentGameState == GameState.ResolveAction)
+                {
+                    currentGameState = GameState.ResetTurnEffects;
+                }
+            }
         }
         else if (currentGameState == GameState.ResetTurnEffects)
         {
@@ -94,32 +124,30 @@ public class GameManager : MonoBehaviour
                 currentGameState = GameState.PlayCard;
             }
         }
+        else if (currentGameState == GameState.EnemyDead)
+        {
+            Debug.Log("enemy is dead, long live enemy");
+            currentGameState = GameState.NewEnemy;
+        }
+        else if (currentGameState == GameState.PlayerDead)
+        {
+            Debug.Log("YOU DIED :::::D");
+        }
         else // shuffle
         { 
-            if (playerCurrentDeck.Count == 0)
+            if (playerDeck.GetCurrentDeck().Count == 0)
             {
-                playerCurrentDeck = new Queue<Card>(
-                    playerDeck
-                        .OrderBy(x => Random.Range(0, playerDeck.Count))
-                        .Select(x => new Card(x.Card))
-                );
+                playerDeck.ShuffleNewDeck();
             }
-            if (enemyCurrentDeck.Count == 0)
+            if (enemyDeck.GetCurrentDeck().Count == 0)
             {
-                enemyCurrentDeck = new Queue<Card>(
-                    enemyDeck
-                        .OrderBy(x => Random.Range(0, enemyDeck.Count))
-                        .Select(x => new Card(x.Card))
-                );
+                enemyDeck.ShuffleNewDeck();
             }
 
-            for (int i = 0; i < handSize; i++)
-            {
-                playerHand.Add(playerCurrentDeck.Dequeue());
-                enemyHand.Add(enemyCurrentDeck.Dequeue());
-            }
+            playerDeck.DrawHand();
+            enemyDeck.DrawHand();
 
-            Debug.Log(string.Join(",", playerHand.Select(x => "[" + string.Join(",", x.Actions.Select(y => y.ActionType.ToString())) + "]" )));
+            Debug.Log(string.Join(",", playerDeck.GetHand().Select(x => "[" + string.Join(",", x.Actions.Select(y => y.ActionType.ToString())) + "]" )));
             currentGameState = GameState.PlayCard;
             playerTimeline.Reset();
             enemyTimeline.Reset();
@@ -133,5 +161,7 @@ public enum GameState
     PlayCard,
     ResolveAction,
     ResetTurnEffects,
+    PlayerDead,
+    EnemyDead,
     ShuffleHand
 }

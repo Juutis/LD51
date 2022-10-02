@@ -2,31 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Character))]
 public class ShieldResolver : MonoBehaviour, IActionResolver
 {
-    [SerializeField]
     private Character character;
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        character = GetComponent<Character>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public CardEffect ResolveTargetAction(int actionAmount)
     {
-
+        return CardEffect.None;
     }
 
-    public void ResolveTargetAction(int actionAmount)
-    {
-    }
-
-    public void ResolveSelfAction(int actionAmount)
+    public CardEffect ResolveSelfAction(int actionAmount)
     {
         // Debug.Log($"Shield up for {gameObject.name}");
         character.SetShield(true);
+        return CardEffect.None;
     }
 
     public CardActionType GetActionType()

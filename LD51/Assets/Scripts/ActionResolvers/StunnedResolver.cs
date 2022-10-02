@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Character))]
-public class DamageResolver : MonoBehaviour, IActionResolver
+public class StunnedResolver : MonoBehaviour
 {
     private Character character;
 
@@ -12,19 +12,19 @@ public class DamageResolver : MonoBehaviour, IActionResolver
         character = GetComponent<Character>();
     }
 
-    public CardEffect ResolveTargetAction(int actionAmount)
+    public void ResolveTargetAction(int actionAmount)
     {
-        return character.TakeDamage(actionAmount);
+        // set damage buff?
     }
 
-    public CardEffect ResolveSelfAction(int actionAmount)
+    public void ResolveSelfAction(int actionAmount)
     {
-        return CardEffect.None;
+        // play stunned animation
     }
 
     public CardActionType GetActionType()
     {
-        return CardActionType.Attack;
+        return CardActionType.Stunned;
     }
 
     public void ResetTurnEffects()

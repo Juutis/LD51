@@ -47,10 +47,18 @@ public class CharacterAnimator : MonoBehaviour
         anim.speed = 1.0f;
     }
 
-    private string[] dieAnimations = new string[] {"die1", "die2"};
+    private string[] dieAnimations = new string[] {"die_1", "die_2"};
 
     public void Die() {
         var animation = dieAnimations[Random.Range(0, dieAnimations.Length)];
         anim.Play(animation);
+    }
+
+    public void Run() {
+        anim.Play("run");
+    }
+
+    public void Idle() {
+        anim.Play("idle");
     }
 }

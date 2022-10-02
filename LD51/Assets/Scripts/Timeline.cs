@@ -1,73 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class Timeline
 {
     private const int length = 10;
     private int currentStep = 0;
-    private List<CardAction> playerActions = new();
-    private List<CardAction> enemyActions = new();
-    private List<Card> playerCards = new();
-    private List<Card> enemyCards = new();
+    private List<CardAction> actions = new();
+    private List<Card> cards = new();
+    private CardActionResolver targetResolver;
+    private CardActionResolver selfResolver;
 
-    public Timeline()
+    public Timeline(CardActionResolver self)
     {
         Reset();
+        selfResolver = self;
     }
 
-    public void AddCard(Card card, bool isPlayer)
+    public void AddCard(Card card)
     {
-        if (isPlayer)
-        {
-            playerActions.AddRange(card.Actions);
-            playerCards.Add(card);
-        }
-        else
-        {
-            enemyActions.AddRange(card.Actions);
-            enemyCards.Add(card);
-        }
+        actions.AddRange(card.Actions);
+        cards.Add(card);
     }
 
     public void Reset()
     {
-        playerActions.Clear();
-        enemyActions.Clear();
+        actions.Clear();
         currentStep = 0;
     }
 
-    public void ResolveActions()
+    public void ResolveActions(CardActionType type)
     {
-        CardAction playerAction = playerActions[currentStep];
-        CardAction enemyAction = enemyActions[currentStep];
-        Debug.Log($"Resolving {playerAction.ActionType} for player");
-        // Debug.Log($"Resolving {enemyAction.ActionType} for enemy");
+        CardAction action = actions[currentStep];
+        if (action.ActionType == type)
+        {
+            Debug.Log($"Resolving {action.ActionType} for {selfResolver.gameObject.name}");
+            selfResolver.ResolveSelfAction(action);
+            targetResolver.ResolveTargetAction(action);
+        }
+    }
+
+    public void ResetTurnEffects()
+    {
         currentStep++;
+        selfResolver.ResetTurnEffects();
     }
 
-    public CardAction GetPlayerCurrentAction()
+    public CardAction GetCurrentAction()
     {
-        return playerActions.Count > currentStep ? playerActions[currentStep] : null;
-    }
-
-    public CardAction GetEnemyCurrentAction()
-    {
-        return enemyActions.Count > currentStep ? enemyActions[currentStep] : null;
+        return actions.Count > currentStep ? actions[currentStep] : null;
     }
 
     public int GetRemainingTime()
     {
-        return length - currentStep - 1;
+        return length - currentStep;
     }
 
-    public int GetPlayerRemainingTime()
+    public void SetTargetResolver(CardActionResolver target)
     {
-        return length - playerActions.Count;
+        targetResolver = target;
     }
 
-    public int GetEnemyRemainingTime()
+    public void SetSelfResolver(CardActionResolver self)
     {
-        return length - enemyActions.Count;
+        selfResolver = self;
     }
 }

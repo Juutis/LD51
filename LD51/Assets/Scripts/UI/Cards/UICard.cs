@@ -32,6 +32,8 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     private List<UITimelineAction> actions = new();
 
+    public int Index { get { return data.Index; } }
+
     public void Initialize(UICardData data)
     {
         this.data = data;
@@ -49,7 +51,7 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void Highlight()
     {
-        if (!isHovered)
+        if (!isHovered && UICardManager.main.CanPlayCard)
         {
             isHovered = true;
             canvas.sortingOrder = highlightSortingOrder;
@@ -69,9 +71,10 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void Select()
     {
-        UITimelineBar.main.CreatePlayerCard(data);
-        UICardManager.main.RemoveCard(this);
-        Destroy(gameObject);
+        if (UICardManager.main.CanPlayCard)
+        {
+            UICardManager.main.PlayCard(data);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -95,4 +98,5 @@ public struct UICardData
 {
     public List<UICardActionData> Actions;
     public Color CostColor;
+    public int Index;
 }

@@ -15,5 +15,6 @@ public enum CardEffect
     Stun,   // Caster is stunned
     Dead,   // Caster is dead
     Killed, // Target was skilled
+    Damaged,
     None
 };

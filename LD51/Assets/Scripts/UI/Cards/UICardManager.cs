@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class UICardManager : MonoBehaviour
 {
@@ -28,57 +29,63 @@ public class UICardManager : MonoBehaviour
     [SerializeField]
     private List<Color> costColors = new();
 
+    [SerializeField]
+    private List<ActionIcon> actionIcons = new();
+
     private List<UICardData> cardDatas = new();
     private List<UICard> cards = new();
 
-    private void Start()
+    private bool canPlayCard = true;
+    public bool CanPlayCard { get { return canPlayCard; } }
+
+    public void PlayCard(UICardData card)
     {
-        CreateTestData();
-        cardDatas.ForEach(card => CreateUICard(card));
+        if (canPlayCard)
+        {
+            canPlayCard = false;
+            GameManager.main.PlayCard(card.Index);
+            GameManager.main.ResolveAction();
+            PlayAction(card.Actions.Count);
+        }
     }
 
-    private void CreateTestData()
+    public void PlayAction(int actionsLeft)
     {
-        UICardActionData testAction1 = new UICardActionData
+        UIManager.main.AnimateClockRound(delegate
         {
-            Icon = testSprite1
-        };
-        UICardActionData testAction2 = new UICardActionData
-        {
-            Icon = testSprite2
-        };
-        UICardData testCard1 = CreateCardData(
-            new() {
-                testAction1
+            actionsLeft -= 1;
+            UITimelineBar.main.NextStep();
+            if (actionsLeft <= 0)
+            {
+                canPlayCard = true;
             }
-        );
-        UICardData testCard2 = CreateCardData(
-            new() {
-                testAction1,
-                testAction2,
-                testAction1,
+            else
+            {
+                GameManager.main.ResolveAction();
+                PlayAction(actionsLeft);
             }
-        );
-        UICardData testCard3 = CreateCardData(
-            new() {
-                testAction1,
-                testAction2,
-                testAction2,
-                testAction1,
-            }
-        );
-        cardDatas.Add(testCard1);
-        cardDatas.Add(testCard2);
-        cardDatas.Add(testCard3);
+        });
     }
 
-    public UICardData CreateCardData(List<UICardActionData> actions)
+    public void DrawHand(List<Card> hand)
+    {
+        int index = 0;
+        hand.ForEach(card => CreateUICard(ConvertCardData(card, index++)));
+    }
+
+    public UICardData ConvertCardData(Card card, int index)
     {
         return new UICardData
         {
-            Actions = actions,
-            CostColor = actions.Count < costColors.Count ? costColors[actions.Count] : defaultCostColor
+            Actions = card.Actions.Select((action) => new UICardActionData
+            {
+                Icon = actionIcons.FirstOrDefault(icon => icon.Type == action.ActionType).Sprite,
+                Count = action.ActionAmount
+            }).ToList(),
+            CostColor = card.Actions.Count < costColors.Count ? costColors[card.Actions.Count] : defaultCostColor,
+            Index = index
         };
+
     }
 
     public void CreateUICard(UICardData data)
@@ -88,8 +95,20 @@ public class UICardManager : MonoBehaviour
         cards.Add(card);
     }
 
-    public void RemoveCard(UICard card)
+    public void RemoveCard(int index)
     {
-        cards.Remove(card);
+        UICard card = cards.FirstOrDefault(card => card.Index == index);
+        if (card != null)
+        {
+            cards.Remove(card);
+            Destroy(card.gameObject);
+        }
     }
+}
+
+[System.Serializable]
+public class ActionIcon
+{
+    public Sprite Sprite;
+    public CardActionType Type;
 }

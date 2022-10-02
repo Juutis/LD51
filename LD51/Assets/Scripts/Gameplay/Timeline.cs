@@ -12,6 +12,9 @@ public class Timeline
     private List<Card> cards = new();
     private CardActionResolver targetResolver;
     private CardActionResolver selfResolver;
+    private TimelineType timelineType;
+
+    public TimelineType Type { set { timelineType = value; } get { return timelineType; } }
 
     public Timeline(CardActionResolver self)
     {
@@ -31,7 +34,7 @@ public class Timeline
         currentStep = 0;
     }
 
-    public CardEffect ResolveActions(CardActionType type)
+    public CardEffectInContext ResolveActions(CardActionType type)
     {
         CardAction action = actions[currentStep];
         if (action.ActionType == type)
@@ -45,18 +48,23 @@ public class Timeline
                 if (currentStep < length)
                 {
                     CardAction stunAction = new() { ActionAmount = 1, ActionType = CardActionType.Stunned };
-                    actions[currentStep+1] = stunAction;
+                    actions[currentStep + 1] = stunAction;
                 }
             }
-
-            if (fromTargetEffect == CardEffect.Killed)
-            {
-                return CardEffect.Killed;
-            }
+            CardEffectInContext effect = new CardEffectInContext();
+            effect.Effect = fromTargetEffect;
+            effect.Type = Type;
+            effect.Amount = action.ActionAmount;
+            return effect;
         }
 
-        return CardEffect.None;
+        CardEffectInContext noneEffect = new CardEffectInContext();
+        noneEffect.Effect = CardEffect.None;
+        noneEffect.Type = Type;
+        noneEffect.Amount = 0;
+        return noneEffect;
     }
+
 
     public bool SkipForward()
     {
@@ -109,4 +117,18 @@ public class Timeline
     {
         return currentStep;
     }
+}
+
+
+public enum TimelineType
+{
+    Player,
+    Enemy
+}
+
+public class CardEffectInContext
+{
+    public int Amount;
+    public CardEffect Effect;
+    public TimelineType Type;
 }

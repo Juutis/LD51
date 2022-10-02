@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager main;
+    private void Awake()
+    {
+        main = this;
+    }
     [SerializeField]
     private UIHealthDisplay playerHealthDisplay;
     [SerializeField]
@@ -22,6 +28,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform enemyPoppingTextPosition;
 
+    private float animateEffectTimer = 0f;
+    private float animateEffectDuration = 0.5f;
+
+    private CardEffectInContext animatedEffect;
+    private bool isAnimating = false;
+
     private void Update()
     {
         if (Application.isEditor)
@@ -37,15 +49,66 @@ public class UIManager : MonoBehaviour
                     ShowPlayerTakeDamage(1);
                 }
             }
-            if (Input.GetKeyDown(KeyCode.C))
+            /*if (Input.GetKeyDown(KeyCode.C))
             {
                 uiClock.AnimateRound();
-            }
-            if (Input.GetMouseButton(0))
+            }*/
+            /*if (Input.GetMouseButtonDown(0))
             {
                 ShowPoppingText(ScreenToWorld(Input.mousePosition), "asd", AnimationDirection.Left, Color.red);
+            }*/
+        }
+        if (isAnimating && animatedEffect != null)
+        {
+            animateEffectTimer += Time.deltaTime;
+            if (animateEffectTimer >= animateEffectDuration)
+            {
+                animateEffectTimer = 0f;
+                isAnimating = false;
+                ProcessCardEffect(animatedEffect);
+                animatedEffect = null;
             }
         }
+        else if (effects.Count > 0)
+        {
+            isAnimating = true;
+            animatedEffect = effects[0];
+        }
+    }
+
+    private List<CardEffectInContext> effects = new();
+    public void AddEffect(CardEffectInContext effect)
+    {
+        if (effect.Effect == CardEffect.None)
+        {
+            return;
+        }
+        effects.Add(effect);
+        Debug.Log($"Added effect: {effect.Effect} |{effect.Type} | {effect.Amount}");
+    }
+
+
+    private void ProcessCardEffect(CardEffectInContext effect)
+    {
+        Debug.Log($"Processing effect: {effect.Effect} |{effect.Type} | {effect.Amount}");
+        if (effect.Effect == CardEffect.Damaged)
+        {
+            if (effect.Type == TimelineType.Enemy)
+            {
+                UIManager.main.ShowPlayerTakeDamage(effect.Amount);
+            }
+            else
+            {
+                UIManager.main.ShowEnemyTakeDamage(effect.Amount);
+            }
+        }
+        effects.Remove(effect);
+    }
+
+
+    public void AnimateClockRound(UnityAction afterRoundAction)
+    {
+        uiClock.AnimateRound(afterRoundAction);
     }
 
     private Vector2 ScreenToWorld(Vector2 screenPos)

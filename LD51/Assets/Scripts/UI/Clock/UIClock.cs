@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIClock : MonoBehaviour
@@ -15,6 +16,8 @@ public class UIClock : MonoBehaviour
     private float roundDuration = 1f;
     private float roundTimer = 0f;
     private bool isAnimating = false;
+    private UnityAction callback;
+
     private void RotateHand()
     {
         float eulerAnglesZ = Mathf.Lerp(originalEulerAnglesZ, targetEulerAnglesZ, roundTimer / roundDuration);
@@ -38,8 +41,9 @@ public class UIClock : MonoBehaviour
         txtSeconds.text = $"{time:F2}s";
     }
 
-    public void AnimateRound()
+    public void AnimateRound(UnityAction action)
     {
+        callback = action;
         isAnimating = true;
         roundTimer = 0f;
         originalEulerAnglesZ = imgHand.transform.localEulerAngles.z;
@@ -56,6 +60,7 @@ public class UIClock : MonoBehaviour
                 SetSeconds(1);
                 SetHandRotation(targetEulerAnglesZ);
                 isAnimating = false;
+                callback();
                 return;
             }
             UpdateSeconds();

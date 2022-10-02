@@ -117,6 +117,23 @@ MonoBehaviour:
   - {r: 1, g: 0.9371726, b: 0, a: 1}
   - {r: 1, g: 0.4828682, b: 0, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
+  actionIcons:
+  - Sprite: {fileID: 21300000, guid: 7ea1b31f775d05b4d886841ecbd3c81c, type: 3}
+    Type: 0
+  - Sprite: {fileID: 21300000, guid: 58baa1a5bb3bf2a4aaf1fd87771647fd, type: 3}
+    Type: 1
+  - Sprite: {fileID: 21300000, guid: bfde9df81b2bce948b9f09c2d3a31dea, type: 3}
+    Type: 2
+  - Sprite: {fileID: 21300000, guid: c1571adffc718704c9faf66fa792e687, type: 3}
+    Type: 3
+  - Sprite: {fileID: 21300000, guid: 61fe32a896d44434ca83f2db9d1f9b7a, type: 3}
+    Type: 4
+  - Sprite: {fileID: 21300000, guid: 2cfce13e96f102c419c843c17f8ebc0e, type: 3}
+    Type: 5
+  - Sprite: {fileID: 21300000, guid: a6fc5a83fe1dccc43929224274a50fe9, type: 3}
+    Type: 6
+  - Sprite: {fileID: 21300000, guid: edb92f0c991a2294e893c0133b94c540, type: 3}
+    Type: 7
 --- !u!1 &9192670120048352271
 GameObject:
   m_ObjectHideFlags: 0

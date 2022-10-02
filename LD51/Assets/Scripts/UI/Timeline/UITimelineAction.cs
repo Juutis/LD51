@@ -17,4 +17,5 @@ public class UITimelineAction : MonoBehaviour
 public struct UICardActionData
 {
     public Sprite Icon;
+    public int Count;
 }

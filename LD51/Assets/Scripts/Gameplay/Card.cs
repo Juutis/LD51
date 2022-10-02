@@ -13,7 +13,7 @@ public class Card
     public Card() { }
     public Card(Card card)
     {
-        Actions = new (card.Actions);
+        Actions = new(card.Actions);
         CardArt = card.CardArt;
     }
 }

@@ -33,6 +33,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICardAction
       objectReference: {fileID: 0}
+    - target: {fileID: 6628464330518686674, guid: 90eebdf435e2a3e48b3e63f25e581904,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628464330518686674, guid: 90eebdf435e2a3e48b3e63f25e581904,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6628464330518686674, guid: 90eebdf435e2a3e48b3e63f25e581904,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8387942503303322765, guid: 90eebdf435e2a3e48b3e63f25e581904,
         type: 3}
       propertyPath: m_Pivot.x
@@ -141,3 +156,24 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 90eebdf435e2a3e48b3e63f25e581904, type: 3}
+--- !u!1 &2644633645618840335 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 345849678230011193, guid: 90eebdf435e2a3e48b3e63f25e581904,
+    type: 3}
+  m_PrefabInstance: {fileID: 2341612573830250038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1313672643846516965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2644633645618840335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1

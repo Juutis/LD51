@@ -8,16 +8,26 @@ public class SpriteRandomizer : MonoBehaviour
     [SerializeField]
     private Sprite[] sprites;
 
+    private int staticSprite = -1;
+    private int spriteIndex = -1;
+
     // Start is called before the first frame update
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        sprite.sprite = sprites[Random.Range(0, sprites.Length)];
+        if (staticSprite < 0) {
+            spriteIndex = Random.Range(0, sprites.Length);
+        } else {
+            spriteIndex = staticSprite;
+        }
+        sprite.sprite = sprites[spriteIndex];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void SetStaticSprite(int index) {
+        staticSprite = index;
+    }
+
+    public int GetSpriteIndex() {
+        return spriteIndex;
     }
 }

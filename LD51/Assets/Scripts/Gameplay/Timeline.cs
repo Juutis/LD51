@@ -47,8 +47,29 @@ public class Timeline
             {
                 if (currentStep < length)
                 {
+                    Debug.Log(string.Join(", ", actions.Select(x => x.ActionType)));
                     CardAction stunAction = new() { ActionAmount = 1, ActionType = CardActionType.Stunned };
-                    actions[currentStep + 1] = stunAction;
+                    if (actions.Count <= currentStep + 1)
+                    {
+                        Card stunCard = new() { Actions = new() { stunAction } };
+                        actions.Add(stunAction);
+                        cards.Add(stunCard);
+                        if (timelineType == TimelineType.Enemy)
+                        {
+                            UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(stunCard, -1));
+                        }
+                        else
+                        {
+                            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(stunCard, -1));
+                        }
+                    }
+                    else
+                    {
+                        actions[currentStep + 1].ActionType = CardActionType.Stunned;
+                        actions[currentStep + 1].ActionAmount = 1;
+                    }
+
+                    Debug.Log(string.Join(", ", actions.Select(x => x.ActionType)));
                 }
             }
             CardEffectInContext effect = new CardEffectInContext();
@@ -64,7 +85,6 @@ public class Timeline
         noneEffect.Amount = 0;
         return noneEffect;
     }
-
 
     public bool SkipForward()
     {

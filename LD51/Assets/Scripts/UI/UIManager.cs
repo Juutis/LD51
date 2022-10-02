@@ -49,14 +49,6 @@ public class UIManager : MonoBehaviour
                     ShowPlayerTakeDamage(1);
                 }
             }
-            /*if (Input.GetKeyDown(KeyCode.C))
-            {
-                uiClock.AnimateRound();
-            }*/
-            /*if (Input.GetMouseButtonDown(0))
-            {
-                ShowPoppingText(ScreenToWorld(Input.mousePosition), "asd", AnimationDirection.Left, Color.red);
-            }*/
         }
         if (isAnimating && animatedEffect != null)
         {

@@ -34,6 +34,7 @@ public class Timeline
         currentStep = 0;
     }
 
+
     public CardEffectInContext ResolveActions(CardActionType type)
     {
         CardAction action = actions[currentStep];

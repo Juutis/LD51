@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private UIPoppingText poppingTextPrefab;
+    [SerializeField]
+    private UIClock uiClock;
 
     [SerializeField]
     private Transform poppingTextContainer;
@@ -34,6 +36,10 @@ public class UIManager : MonoBehaviour
                 {
                     ShowPlayerTakeDamage(1);
                 }
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                uiClock.AnimateRound();
             }
             if (Input.GetMouseButton(0))
             {

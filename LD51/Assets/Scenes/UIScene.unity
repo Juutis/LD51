@@ -266,7 +266,7 @@ PrefabInstance:
     - target: {fileID: 4661271847894000462, guid: 82d6e6ef380f7064a9857e591f09c370,
         type: 3}
       propertyPath: enemies.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4661271847894000462, guid: 82d6e6ef380f7064a9857e591f09c370,
         type: 3}
@@ -503,11 +503,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
-        type: 3}
-      propertyPath: HP
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -1470,6 +1465,11 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8253044292096386869, guid: f47e0265f1edf16459189554c6c92516,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.97
+      objectReference: {fileID: 0}
     - target: {fileID: 8357502889459705613, guid: f47e0265f1edf16459189554c6c92516,
         type: 3}
       propertyPath: m_RootOrder

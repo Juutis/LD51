@@ -64,6 +64,7 @@ MonoBehaviour:
     type: 3}
   actionContainer: {fileID: 8402959661723538089}
   imgCostBg: {fileID: 1362470495690358351}
+  grayscaleMaterial: {fileID: 2100000, guid: fb645393591eb0d41bbd3b7416c6ba33, type: 2}
 --- !u!1 &4264343741343291037
 GameObject:
   m_ObjectHideFlags: 0

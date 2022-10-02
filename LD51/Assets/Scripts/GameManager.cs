@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         enemyActionResolver = enemies[currentEnemy];
         playerTimeline.Reset();
         enemyTimeline = new(enemyActionResolver);
-        enemyTimeline.Type = TimelineType.Enemy; 
+        enemyTimeline.Type = TimelineType.Enemy;
         enemyTimeline.SetTargetResolver(playerActionResolver);
         playerTimeline.SetTargetResolver(enemyActionResolver);
         enemyDeck = enemyActionResolver.GetComponent<Deck>();
@@ -193,6 +193,10 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
+
+            CardAction playerAction = playerTimeline.GetCurrentAction();
+            CardAction enemyAction = enemyTimeline.GetCurrentAction();
+            CharacterAnimationManager.main.PlayAnimations(playerAction, enemyAction);
 
             if (currentGameState == GameState.ResolveAction)
             {

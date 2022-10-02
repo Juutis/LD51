@@ -35,8 +35,12 @@ public class UICardManager : MonoBehaviour
     private List<UICardData> cardDatas = new();
     private List<UICard> cards = new();
 
+    private List<Card> pendingHand;
     private bool canPlayCard = true;
     public bool CanPlayCard { get { return canPlayCard; } }
+
+    private bool previousRoundFinished = true;
+    public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
 
     public void PlayCard(UICardData card)
     {
@@ -69,9 +73,23 @@ public class UICardManager : MonoBehaviour
 
     public void DrawHand(List<Card> hand)
     {
-        int index = 0;
-        hand.ForEach(card => CreateUICard(ConvertCardData(card, index++)));
+        pendingHand = hand;
     }
+
+    private void Update()
+    {
+        if (pendingHand != null)
+        {
+            if (previousRoundFinished)
+            {
+                previousRoundFinished = false;
+                int index = 0;
+                pendingHand.ForEach(card => CreateUICard(ConvertCardData(card, index++)));
+                pendingHand = null;
+            }
+        }
+    }
+
 
     public UICardData ConvertCardData(Card card, int index)
     {

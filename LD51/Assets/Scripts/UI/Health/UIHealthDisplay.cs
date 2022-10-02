@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class UIHealthDisplay : MonoBehaviour
 {
-    public static UIHealthDisplay main;
-    private void Awake()
-    {
-        main = this;
-    }
     [SerializeField]
     private Text txtValue;
     [SerializeField]
@@ -27,10 +22,8 @@ public class UIHealthDisplay : MonoBehaviour
     private float animateTimer = 0f;
     private float animateDuration = 0.4f;
 
-    private void Start()
-    {
-        Initialize(10, 10);
-    }
+    [SerializeField]
+    private bool showMaxValue = false;
 
     public void Initialize(int value, int max)
     {
@@ -38,6 +31,11 @@ public class UIHealthDisplay : MonoBehaviour
         targetValue = value;
         maxValue = max;
         SetDisplayValue();
+    }
+
+    public void AnimateChange(int change)
+    {
+        AnimateValue(currentValue + change);
     }
 
     public void AnimateValue(int value)
@@ -55,7 +53,14 @@ public class UIHealthDisplay : MonoBehaviour
 
     private void SetDisplayValue()
     {
-        txtValue.text = $"{currentValue}";
+        if (showMaxValue)
+        {
+            txtValue.text = $"{currentValue} / {maxValue}";
+        }
+        else
+        {
+            txtValue.text = $"{currentValue}";
+        }
         imgValue.fillAmount = (float)currentValue / (float)maxValue;
     }
 

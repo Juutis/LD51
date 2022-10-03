@@ -138,6 +138,11 @@ public class Timeline
     {
         return currentStep;
     }
+
+    public int GetRemainingActions()
+    {
+        return actions.Count - currentStep;
+    }
 }
 
 

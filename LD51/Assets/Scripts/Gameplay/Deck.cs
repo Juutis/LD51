@@ -39,6 +39,7 @@ public class Deck : MonoBehaviour
 
     public void DrawHand()
     {
+        hand.Clear();
         for (int i = 0; i < handSize; i++)
         {
             hand.Add(currentDeck.Dequeue());
@@ -51,5 +52,27 @@ public class Deck : MonoBehaviour
         Card card = hand[i];
         hand.RemoveAt(i);
         return card;
+    }
+
+    public Card PlaySkip(int skipAmount)
+    {
+        Card skipCard = new Card();
+        for (int i = 0; i < skipAmount; i++)
+        {
+            skipCard.Actions.Add(new CardAction { ActionType = CardActionType.Wait, ActionAmount = 1 });
+        }
+
+        return skipCard;
+    }
+
+    public bool HasPlayableCard(int remainingTime)
+    {
+        bool hasPlayable = false;
+        foreach (Card c in hand)
+        {
+            hasPlayable |= c.Actions.Count <= remainingTime;
+        }
+
+        return hasPlayable;
     }
 }

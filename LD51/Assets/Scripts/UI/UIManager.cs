@@ -377,7 +377,7 @@ public class UIManager : MonoBehaviour
         Color textColor = damage > 0 ? Color.red : Color.green;
         textColor = damage == 0 ? Color.white : textColor;
         string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
-        damageText = damage == 0 ? "�0" : damageText;
+        damageText = damage == 0 ? "±0" : damageText;
         ShowPoppingText(enemyPoppingTextPosition.position, damageText, AnimationDirection.Right, textColor);
         enemyHealthDisplay.AnimateChange(-damage);
     }
@@ -388,7 +388,7 @@ public class UIManager : MonoBehaviour
         Color textColor = damage > 0 ? Color.red : Color.green;
         textColor = damage == 0 ? Color.white : textColor;
         string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
-        damageText = damage == 0 ? "�0" : damageText;
+        damageText = damage == 0 ? "±0" : damageText;
         ShowPoppingText(playerPoppingTextPosition.position, damageText, AnimationDirection.Left, textColor);
         playerHealthDisplay.AnimateChange(-damage);
     }

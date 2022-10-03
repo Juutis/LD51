@@ -40,7 +40,6 @@ public class UIManager : MonoBehaviour
 
     private CardEffectInContext animatedEffect;
     private bool isAnimating = false;
-    private int playerHealth = 10;
 
     private float basicUIBreakDuration = 0.4f;
     private bool enemyKilled = false;
@@ -55,7 +54,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        playerHealthDisplay.Initialize(playerHealth, playerHealth);
+        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
         Invoke("NewEnemy", basicUIBreakDuration);
         Invoke("DrawHand", basicUIBreakDuration * 2);
         skipRoundButton.SetInactive();

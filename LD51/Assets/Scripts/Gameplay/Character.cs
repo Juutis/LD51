@@ -21,12 +21,11 @@ public class Character : MonoBehaviour
         {
             // Debug.Log($"Take damage, {gameObject.name}");
             HP = Mathf.Max(0, HP - damage);
+            if (HP <= 0)
+            {
+                return CardEffect.Killed;
+            }
             return CardEffect.Damaged;
-        }
-
-        if (HP <= 0)
-        {
-            return CardEffect.Killed;
         }
 
         return CardEffect.None;

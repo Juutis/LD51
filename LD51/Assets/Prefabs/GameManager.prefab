@@ -49,6 +49,9 @@ MonoBehaviour:
   enemies:
   - {fileID: 0}
   - {fileID: 0}
+  enemyPrefab: {fileID: 4834393227117026455, guid: 21a62d82545d4d44581699e3c7c6b970,
+    type: 3}
+  enemy: {fileID: 0}
 --- !u!114 &4949244348820597254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,3 +64,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89cc3860ac638f84787882aef6c31b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TriggerWalk: 0
+  TriggerPlayerDead: 0
+  TriggerEnemyDead: 0

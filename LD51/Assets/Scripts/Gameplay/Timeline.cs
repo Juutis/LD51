@@ -93,6 +93,7 @@ public class Timeline
                         // TODO: Mark stun on only the future actions
                         Sprite stunIcon = UICardManager.main.GetActionIcon(CardActionType.Stunned)?.Sprite;
                         uiCard.Actions.ForEach(x => x.SetImage(stunIcon));
+                        uiCard.Actions.ForEach(x => x.SetDataType(CardActionType.Stunned));
                     }
 
                     Debug.Log(string.Join(", ", actions.Select(x => x.ActionType)));

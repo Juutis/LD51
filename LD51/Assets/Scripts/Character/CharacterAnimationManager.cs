@@ -75,6 +75,7 @@ public class CharacterAnimationManager : MonoBehaviour
     private float animationLength = 1f;
     public void PlayAnimations(UITimelineAction playerAction, UITimelineAction enemyAction, UnityAction callback)
     {
+        Debug.Log("Playing animations " + playerAction.Data.Type + " and " + enemyAction.Data.Type);
         this.callback = callback;
         FetchAnimators();
         playerAnimator.Animate(playerAction.Data.Type, enemyAction.Data.Type);

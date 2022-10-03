@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70b018355ba49f249b6e0d7363288110, type: 3}
-  m_Name: Bait and Switch
+  m_Name: Tuto1a
   m_EditorClassIdentifier: 
   Card:
     Actions:
     - ActionType: 2
       ActionAmount: 1
-    - ActionType: 4
+    - ActionType: 2
+      ActionAmount: 1
+    - ActionType: 2
+      ActionAmount: 1
+    - ActionType: 2
       ActionAmount: 1
     - ActionType: 0
       ActionAmount: 1
-    CardArt: {fileID: 21300000, guid: cb8c188e017a8744e9264e4b0aeb8b11, type: 3}
+    CardArt: {fileID: 0}
     Index: 0

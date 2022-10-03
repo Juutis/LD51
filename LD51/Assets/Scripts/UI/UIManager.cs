@@ -40,7 +40,6 @@ public class UIManager : MonoBehaviour
 
     private CardEffectInContext animatedEffect;
     private bool isAnimating = false;
-    private int playerHealth = 10;
 
     private float basicUIBreakDuration = 0.4f;
     private bool enemyKilled = false;
@@ -55,7 +54,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        playerHealthDisplay.Initialize(playerHealth, playerHealth);
+        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
         Invoke("NewEnemy", basicUIBreakDuration);
         Invoke("DrawHand", basicUIBreakDuration * 2);
         skipRoundButton.SetInactive();
@@ -379,7 +378,7 @@ public class UIManager : MonoBehaviour
         Color textColor = damage > 0 ? Color.red : Color.green;
         textColor = damage == 0 ? Color.white : textColor;
         string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
-        damageText = damage == 0 ? "�0" : damageText;
+        damageText = damage == 0 ? "±0" : damageText;
         ShowPoppingText(enemyPoppingTextPosition.position, damageText, AnimationDirection.Right, textColor);
         enemyHealthDisplay.AnimateChange(-damage);
     }
@@ -390,7 +389,7 @@ public class UIManager : MonoBehaviour
         Color textColor = damage > 0 ? Color.red : Color.green;
         textColor = damage == 0 ? Color.white : textColor;
         string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
-        damageText = damage == 0 ? "�0" : damageText;
+        damageText = damage == 0 ? "±0" : damageText;
         ShowPoppingText(playerPoppingTextPosition.position, damageText, AnimationDirection.Left, textColor);
         playerHealthDisplay.AnimateChange(-damage);
     }

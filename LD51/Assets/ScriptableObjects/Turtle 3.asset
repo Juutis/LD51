@@ -18,5 +18,5 @@ MonoBehaviour:
       ActionAmount: 1
     - ActionType: 1
       ActionAmount: 1
-    CardArt: {fileID: 21300000, guid: cb8c188e017a8744e9264e4b0aeb8b11, type: 3}
+    CardArt: {fileID: -34748742, guid: b6fde826a291fd5419f4e95d57b4829a, type: 3}
     Index: 0

@@ -30,6 +30,9 @@ public class UICard : MonoBehaviour
     private Image imgCardCostBg;
 
     [SerializeField]
+    private Image cardArt;
+
+    [SerializeField]
     private Material grayscaleMaterial;
 
     private List<UITimelineAction> actions = new();
@@ -52,6 +55,7 @@ public class UICard : MonoBehaviour
         imgCardCostBg.color = data.CostColor;
         data.Actions.ForEach(action => CreateAction(action));
         hoverHelper.Initialize(this);
+        cardArt.sprite = data.CardArt;
     }
     private void CreateAction(UICardActionData data)
     {
@@ -114,5 +118,6 @@ public struct UICardData
 {
     public List<UICardActionData> Actions;
     public Color CostColor;
+    public Sprite CardArt;
     public int Index;
 }

@@ -29,6 +29,8 @@ public class CharacterAnimator : MonoBehaviour
         if (selfAction == CardActionType.Attack) {
             if (otherAction == CardActionType.Defend) {
                 animation = "slash_block";
+            } else if (otherAction == CardActionType.Parry) {
+                animation = "slash_parry";
             } else {
                 animation = "slash";
             }

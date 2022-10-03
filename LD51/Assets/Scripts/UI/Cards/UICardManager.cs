@@ -228,7 +228,8 @@ public class UICardManager : MonoBehaviour
                 Count = action.ActionAmount
             }).ToList(),
             CostColor = card.Actions.Count < costColors.Count ? costColors[card.Actions.Count] : defaultCostColor,
-            Index = index
+            Index = index,
+            CardArt = card.CardArt
         };
 
     }

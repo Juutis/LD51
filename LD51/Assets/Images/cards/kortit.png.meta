@@ -122,12 +122,12 @@ TextureImporter:
       name: kortit_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1350
-        width: 466.66666
-        height: 450
+        x: 99
+        y: 1438
+        width: 275
+        height: 284
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -143,12 +143,12 @@ TextureImporter:
       name: kortit_1
       rect:
         serializedVersion: 2
-        x: 466
-        y: 1350
-        width: 466.66666
-        height: 450
+        x: 547
+        y: 1438
+        width: 308
+        height: 287
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -164,12 +164,12 @@ TextureImporter:
       name: kortit_2
       rect:
         serializedVersion: 2
-        x: 932
-        y: 1350
-        width: 466.66666
-        height: 450
+        x: 1009
+        y: 1475
+        width: 276
+        height: 259
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -185,12 +185,12 @@ TextureImporter:
       name: kortit_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 900
-        width: 466.66666
-        height: 450
+        x: 44
+        y: 922
+        width: 398
+        height: 428
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -206,12 +206,12 @@ TextureImporter:
       name: kortit_4
       rect:
         serializedVersion: 2
-        x: 466
-        y: 900
-        width: 466.66666
-        height: 450
+        x: 573
+        y: 975
+        width: 288
+        height: 312
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -227,12 +227,12 @@ TextureImporter:
       name: kortit_5
       rect:
         serializedVersion: 2
-        x: 932
-        y: 900
-        width: 466.66666
-        height: 450
+        x: 987
+        y: 990
+        width: 326
+        height: 295
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -248,12 +248,12 @@ TextureImporter:
       name: kortit_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 450
-        width: 466.66666
-        height: 450
+        x: 96
+        y: 563
+        width: 287
+        height: 254
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -269,12 +269,12 @@ TextureImporter:
       name: kortit_7
       rect:
         serializedVersion: 2
-        x: 466
-        y: 450
-        width: 466.66666
-        height: 450
+        x: 536
+        y: 511
+        width: 335
+        height: 337
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -290,12 +290,12 @@ TextureImporter:
       name: kortit_8
       rect:
         serializedVersion: 2
-        x: 932
-        y: 450
-        width: 466.66666
-        height: 450
+        x: 1031
+        y: 542
+        width: 272
+        height: 275
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -311,12 +311,12 @@ TextureImporter:
       name: kortit_9
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 466.66666
-        height: 450
+        x: 92
+        y: 93
+        width: 277
+        height: 251
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

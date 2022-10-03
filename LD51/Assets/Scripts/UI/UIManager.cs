@@ -152,7 +152,14 @@ public class UIManager : MonoBehaviour
         UICardManager.main.AnimateEnemyCard(enemyCard, callback);
     }
 
+    public void AnimateEnemyCard(Card enemyCard, UnityAction callback)
+    {
+        UICardManager.main.AnimateEnemyCard(enemyCard, callback);
+    }
+
     bool enemyKilled = false;
+    bool playerKilled = false;
+    public GameObject YouDied, YouWin;
     public void EnemyWasKilled()
     {
         Debug.Log("Enemy was killed!");
@@ -166,8 +173,14 @@ public class UIManager : MonoBehaviour
         UICardManager.main.CanPlayCard = false;
         Debug.Log("Player was killed!");
         playerWasKilled = true;
+        YouDied.SetActive(true);
     }
 
+
+    public void Win()
+    {
+        YouWin.SetActive(true);
+    }
     public void PlayAction()
     {
         if (playerWasKilled)
@@ -181,7 +194,7 @@ public class UIManager : MonoBehaviour
             {
                 // actionsLeft -= 1;
                 Debug.Log("Playing enemy card");
-                if (!enemyKilled)
+                if (!enemyKilled && GameManager.main.GetPlayerRemainingActions() > 0 && !playerKilled)
                 {
                     PlayEnemyCard(ContinueAction);
                 }

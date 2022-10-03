@@ -69,7 +69,10 @@ public class CharacterAnimator : MonoBehaviour
         anim.Play("run");
     }
 
-    public void Idle() {
+    public void Idle(bool force = false) {
+        if (!force && (isAnimationPlaying("idle") || isAnimationPlaying("run"))) {
+            return;
+        }
         anim.Play("idle");
     }
 

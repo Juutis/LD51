@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8484639264368050718
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 2
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8341953893578530130, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 8341953893578530130, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_Name
+      value: Tutorial Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: HP
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: MaxHP
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.9678984
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.7211747
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.929304
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341953893578530142, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: CharacterPrefab
+      value: 
+      objectReference: {fileID: 4834393227117026455, guid: c6155955d77596246ab94453381b5ac7,
+        type: 3}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8819522ab040d294d84d4e13671896ca,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 13e1671005f02b1418514d7f3770a92b,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a133d29e5f4e2f44aa810cfca06055f8,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ffe8b21cc96084aa4efb8cc2d15269,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b106d3a38dd4094b8df13e9285178ee,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[0].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 8819522ab040d294d84d4e13671896ca,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[1].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 13e1671005f02b1418514d7f3770a92b,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2].card
+      value: 
+      objectReference: {fileID: 11400000, guid: a133d29e5f4e2f44aa810cfca06055f8,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[3].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ffe8b21cc96084aa4efb8cc2d15269,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[4].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b106d3a38dd4094b8df13e9285178ee,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[0].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[1].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[3].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[4].count
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_AddedGameObjects: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2c340b7315745d642ad6089c224b778c, type: 3}

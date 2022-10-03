@@ -15,6 +15,10 @@ public class UITimelineAction : MonoBehaviour
 
     [SerializeField]
     private GameObject container;
+
+    [SerializeField]
+    private Text amountText;
+
     private bool isHighlighted = true;
     public bool IsHighlighted { get { return isHighlighted; } }
 
@@ -30,6 +34,10 @@ public class UITimelineAction : MonoBehaviour
 
     private UICardActionData data;
     public UICardActionData Data { get { return data; } }
+
+    public void SetDataType(CardActionType type) {
+        data.Type = type;
+    }
 
     private UnityAction callback;
     private void Update()
@@ -61,6 +69,14 @@ public class UITimelineAction : MonoBehaviour
         this.data = data;
         rt = container.GetComponent<RectTransform>();
         imgIcon.sprite = data.Icon;
+        if (data.Count > 1)
+        {
+            amountText.text = data.Count.ToString();
+        }
+        else
+        {
+            amountText.gameObject.SetActive(false);
+        }
     }
 
     public void AnimatePerform(Vector3 target, UnityAction callback = null)

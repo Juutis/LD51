@@ -144,6 +144,17 @@ public class UICardManager : MonoBehaviour
                 pendingHand = null;
             }
         }
+        if (canPlayCard)
+        {
+            if (GameManager.main.playerTimeline != null && GameManager.main.playerTimeline.GetRemainingActions() == 0)
+            {
+                CharacterAnimationManager.main.PlayerIdle();
+            }
+            if (GameManager.main.enemyTimeline != null && GameManager.main.enemyTimeline.GetRemainingActions() == 0)
+            {
+                CharacterAnimationManager.main.EnemyIdle();
+            }
+        }
         if (isAnimating)
         {
             animateTimer += Time.deltaTime;
@@ -174,6 +185,7 @@ public class UICardManager : MonoBehaviour
     {
         UIManager.main.PlayCard(nextCard);
     }
+
 
 
     public void SetUnplayableCardsInactive()

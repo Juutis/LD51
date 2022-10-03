@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f21989fc7590904ea9f7a3d836addee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CharacterPrefab: {fileID: 0}
 --- !u!114 &8341953893578530141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,13 +113,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck:
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
-  - {fileID: 11400000, guid: 2ac2d8f01a8c07f4ab0c10cf66861940, type: 2}
+  - card: {fileID: 11400000, guid: e36e19320bf04304f8febd895ea2358c, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 32fa01bf3bf32774bb346a279934bdb4, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 25ed2dc2f346dca4c8ccaae03234ed04, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 655c96e9e4489ef40b6e8a784511bd07, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: ff830e0cb2d252c44a560f9128054d79, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 9922496898189a343982750cd8acbcd8, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 1665d3ace3ea32447b2bc3b06481d0c4, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 6138c0235a8ac8a4698b7cc9a4d80870, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: b06856ae962cbe547a0f2231c06e2de1, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: b3b88e3618c685c4388f91375e95072b, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 31af8ed9208c16e488791513694cd8cb, type: 2}
+    count: 5
+  - card: {fileID: 11400000, guid: 3a9f8ce1a9f9d3b4682cd43f1354e3cc, type: 2}
+    count: 5

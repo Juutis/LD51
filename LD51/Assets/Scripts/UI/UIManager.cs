@@ -81,25 +81,37 @@ public class UIManager : MonoBehaviour
 
     public void PlayCard(UICardData card)
     {
+        if (playerWasKilled)
+        {
+            return;
+        }
         Debug.Log($"Playing card: {card.Index} -> {card.Actions.Count}");
         Card playerCard = GameManager.main.PlayCard(card.Index);
         if (playerCard != null)
         {
-            UICardManager.main.RemoveCard(card.Index);
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
         }
-        if (!enemyKilled)
+        if (!enemyKilled && !playerWasKilled)
         {
-            PlayEnemyCard();
+            PlayEnemyCard(delegate
+            {
+                Invoke("PlayActions", 0.5f);
+            });
         }
-        PlayAction();
         UICardManager.main.SetHandInactive();
         skipRoundButton.SetInactive();
     }
+
+    public void PlayActions()
+    {
+        PlayAction();
+    }
+
     public void DrawHand()
     {
         UITimelineBar.main.ResetMarker();
         GameManager.main.ProcessShuffle();
+        UICardManager.main.DestroyCopyCard();
         //skipRoundButton.SetActiveAgain();
     }
 
@@ -113,13 +125,31 @@ public class UIManager : MonoBehaviour
         enemyHealthDisplay.Hide();
     }
 
-    private void PlayEnemyCard()
+    private void PlayEnemyCard(UnityAction callback)
     {
+        if (GameManager.main.GetPlayerRemainingActions() <= 0)
+        {
+            callback();
+            return;
+        }
         Card enemyCard = GameManager.main.PlayEnemyCard();
         if (enemyCard != null)
         {
-            UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(enemyCard, 0));
+            AnimateEnemyCard(enemyCard, delegate
+            {
+                UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(enemyCard, 0));
+                callback();
+            });
         }
+        else
+        {
+            callback();
+        }
+    }
+
+    public void AnimateEnemyCard(Card enemyCard, UnityAction callback)
+    {
+        UICardManager.main.AnimateEnemyCard(enemyCard, callback);
     }
 
     bool enemyKilled = false;
@@ -129,8 +159,21 @@ public class UIManager : MonoBehaviour
         enemyKilled = true;
     }
 
+    bool playerWasKilled = false;
+    public void PlayerWasKilled()
+    {
+        UICardManager.main.SetHandInactive();
+        UICardManager.main.CanPlayCard = false;
+        Debug.Log("Player was killed!");
+        playerWasKilled = true;
+    }
+
     public void PlayAction()
     {
+        if (playerWasKilled)
+        {
+            return;
+        }
         UITimelineBar.main.AnimateCurrentStep(
             playerActionPosition,
             enemyActionPosition,
@@ -140,26 +183,35 @@ public class UIManager : MonoBehaviour
                 Debug.Log("Playing enemy card");
                 if (!enemyKilled)
                 {
-                    PlayEnemyCard();
-                }
-                UITimelineBar.main.NextStep();
-                Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
-                if (GameManager.main.GetPlayerRemainingActions() <= 0)
-                {
-                    UICardManager.main.CanPlayCard = true;
-                    UICardManager.main.SetPlayableCardsActive();
-                    skipRoundButton.SetActiveAgain();
+                    PlayEnemyCard(ContinueAction);
                 }
                 else
                 {
-                    if (!enemyKilled)
-                    {
-                        PlayAction();
-                    }
+                    ContinueAction();
                 }
+
             }
         );
+    }
 
+    private void ContinueAction()
+    {
+        UITimelineBar.main.NextStep();
+        Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
+        if (GameManager.main.GetPlayerRemainingActions() <= 0)
+        {
+            UICardManager.main.DestroyCopyCard();
+            UICardManager.main.CanPlayCard = true;
+            UICardManager.main.SetPlayableCardsActive();
+            skipRoundButton.SetActiveAgain();
+        }
+        else
+        {
+            if (!enemyKilled && !playerWasKilled)
+            {
+                PlayAction();
+            }
+        }
     }
 
     private void Update()

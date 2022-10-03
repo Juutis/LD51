@@ -248,6 +248,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Do stuff
                     Debug.Log("Player killed");
+                    UIManager.main.PlayerWasKilled();
                     //currentGameState = GameState.PlayerDead;
                     break;
                 }

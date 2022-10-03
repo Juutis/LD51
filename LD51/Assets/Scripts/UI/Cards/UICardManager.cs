@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Events;
 
 public class UICardManager : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class UICardManager : MonoBehaviour
 
     [SerializeField]
     private Transform uiCardHandContainer;
+    [SerializeField]
+    private Transform currentCardContainer;
 
     [SerializeField]
     private Sprite testSprite1;
@@ -42,6 +45,24 @@ public class UICardManager : MonoBehaviour
     private bool previousRoundFinished = false;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
 
+
+    private Vector3 originalScale;
+    private Vector3 targetScale = new Vector3(1f, 1f, 1);
+    private float animateTimer = 0f;
+    private float animateDuration = 1f;
+    private bool isAnimating = false;
+    [SerializeField]
+    private Transform playerCardTarget;
+    [SerializeField]
+    private Transform enemyCardTarget;
+    [SerializeField]
+    private Transform enemyCardOriginalPos;
+    private Vector3 originalPosition;
+    private Vector3 targetPosition;
+
+    private bool playCardNext = false;
+
+
     public void SkipRound()
     {
         if (canPlayCard)
@@ -52,13 +73,56 @@ public class UICardManager : MonoBehaviour
         }
     }
 
+    private UICardData nextCard;
+    private UICardData nextCardEnemy;
+    private UICard copyCard;
+    private UICard copyCardEnemy;
+    private UnityAction animationFinishedCallback;
     public void PlayCard(UICardData card)
     {
         if (canPlayCard)
         {
+            nextCard = card;
             canPlayCard = false;
-            UIManager.main.PlayCard(card);
+            AnimateCardSelection();
         }
+    }
+
+    public void DestroyCopyCard()
+    {
+        if (copyCard != null)
+        {
+            Destroy(copyCard.gameObject);
+            copyCard = null;
+        }
+    }
+
+    public void AnimateEnemyCard(Card enemyCard, UnityAction callback)
+    {
+        animationFinishedCallback = callback;
+        playCardNext = false;
+        isAnimating = true;
+        animateTimer = 0f;
+        copyCard = Instantiate(uiCardPrefab, Vector2.zero, Quaternion.identity, currentCardContainer);
+        copyCard.transform.position = enemyCardOriginalPos.position;
+        copyCard.Initialize(ConvertCardData(enemyCard, -1));
+        targetPosition = enemyCardTarget.position;
+        originalPosition = copyCard.transform.position;
+        originalScale = copyCard.transform.localScale;
+    }
+
+    public void AnimateCardSelection()
+    {
+        playCardNext = true;
+        isAnimating = true;
+        animateTimer = 0f;
+        UICard card = FindCard(nextCard.Index);
+        copyCard = Instantiate(card, card.transform.position, Quaternion.identity, currentCardContainer);
+        copyCard.SetInactiveButNotGrayscale();
+        targetPosition = playerCardTarget.position;
+        originalPosition = copyCard.transform.position;
+        originalScale = copyCard.transform.localScale;
+        RemoveCard(nextCard.Index);
     }
 
     public void DrawHand(List<Card> hand)
@@ -80,7 +144,37 @@ public class UICardManager : MonoBehaviour
                 pendingHand = null;
             }
         }
+        if (isAnimating)
+        {
+            animateTimer += Time.deltaTime;
+            copyCard.transform.position = Vector3.Lerp(originalPosition, targetPosition, animateTimer / animateDuration);
+            copyCard.transform.localScale = Vector3.Lerp(originalScale, targetScale, animateTimer / animateDuration);
+            if (animateTimer >= animateDuration)
+            {
+                animateTimer = 0f;
+                isAnimating = false;
+                copyCard.transform.position = targetPosition;
+                copyCard.transform.localScale = targetScale;
+                DestroyCopyCard();
+                if (playCardNext)
+                {
+                    Invoke("PlayCardWithDelay", 0.2f);
+                    playCardNext = false;
+                }
+                if (animationFinishedCallback != null)
+                {
+                    animationFinishedCallback();
+                    animationFinishedCallback = null;
+                }
+            }
+        }
     }
+
+    public void PlayCardWithDelay()
+    {
+        UIManager.main.PlayCard(nextCard);
+    }
+
 
     public void SetUnplayableCardsInactive()
     {
@@ -122,9 +216,14 @@ public class UICardManager : MonoBehaviour
         cards.Add(card);
     }
 
+    private UICard FindCard(int index)
+    {
+        return cards.FirstOrDefault(card => card.Index == index);
+    }
+
     public void RemoveCard(int index)
     {
-        UICard card = cards.FirstOrDefault(card => card.Index == index);
+        UICard card = FindCard(index);
         if (card != null)
         {
             cards.Remove(card);

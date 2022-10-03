@@ -149,8 +149,11 @@ public class GameManager : MonoBehaviour
 
     public void ProcessNewEnemy()
     {
-        Debug.Log("New enemy");
         currentEnemy++;
+        if (currentEnemy >= enemies.Count) {
+            Debug.Log("YOU WIN");
+            return;
+        }
         enemyActionResolver = enemies[currentEnemy];
         playerTimeline.Reset();
         enemyTimeline = new(enemyActionResolver);

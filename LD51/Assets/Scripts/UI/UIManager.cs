@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
         Invoke("NewEnemy", basicUIBreakDuration);
         Invoke("DrawHand", basicUIBreakDuration * 2);
         skipRoundButton.SetInactive();
@@ -73,6 +72,7 @@ public class UIManager : MonoBehaviour
     public void SetPlayerCharacter(Character p)
     {
         player = p;
+        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
     }
 
     public void NextRoundDelayed()

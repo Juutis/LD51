@@ -35,6 +35,10 @@ public class UITimelineAction : MonoBehaviour
     private UICardActionData data;
     public UICardActionData Data { get { return data; } }
 
+    public void SetDataType(CardActionType type) {
+        data.Type = type;
+    }
+
     private UnityAction callback;
     private void Update()
     {

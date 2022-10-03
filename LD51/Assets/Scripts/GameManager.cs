@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
     private Deck playerDeck;
     private Deck enemyDeck;
 
-    private Timeline playerTimeline;
-    private Timeline enemyTimeline;
+    public Timeline playerTimeline;
+    public Timeline enemyTimeline;
 
     public Deck PlayerDeck { get { return playerDeck; } }
 
@@ -83,7 +83,9 @@ public class GameManager : MonoBehaviour
             }
 
             playerTimeline.AddCard(card);
-            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, -1));
+            var uiCard = UICardManager.main.ConvertCardData(card, -1);
+            UITimelineBar.main.CreatePlayerCard(uiCard);
+            UIManager.main.PlayCard(uiCard);
         }
     }
 
@@ -153,6 +155,7 @@ public class GameManager : MonoBehaviour
         if (currentEnemy >= enemies.Count)
         {
             Debug.Log("YOU WIN");
+            UIManager.main.Win();
             return null;
         }
         enemyActionResolver = enemies[currentEnemy];
@@ -165,7 +168,8 @@ public class GameManager : MonoBehaviour
         // heal player a bit
         //currentGameState = GameState.ShuffleHand;
 
-        Enemy = Instantiate(enemyPrefab, worldRotator);
+        var graphics = enemyActionResolver.CharacterPrefab == null ? enemyPrefab : enemyActionResolver.CharacterPrefab;
+        Enemy = Instantiate(graphics, worldRotator);
         Enemy.transform.position = enemySpawn.position;
         return enemyActionResolver.GetComponent<Character>();
     }
@@ -249,6 +253,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Do stuff
                     Debug.Log("Player killed");
+                    UIManager.main.PlayerWasKilled();
                     //currentGameState = GameState.PlayerDead;
                     break;
                 }

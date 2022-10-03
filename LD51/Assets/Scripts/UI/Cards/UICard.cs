@@ -101,6 +101,11 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         Select();
     }
 
+    public void SetInactiveButNotGrayscale()
+    {
+        inactive = true;
+    }
+
     public void SetInactive()
     {
         inactive = true;

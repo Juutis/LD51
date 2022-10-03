@@ -55,12 +55,9 @@ public class UITimelineBar : MonoBehaviour
     public void NextStep()
     {
         timelinePosition += 1;
-        if (timelinePosition > timelineMaxIndex)
+        if (timelinePosition >= timelineMaxIndex)
         {
             timelinePosition = -1;
-        }
-        if (timelinePosition == timelineMaxIndex)
-        {
             Clear();
             UICardManager.main.PreviousRoundFinished = true;
         }
@@ -131,10 +128,12 @@ public class UITimelineBar : MonoBehaviour
     private void ClearAllEnemyCards()
     {
         enemyCards.ForEach(card => card.Remove());
+        enemyCards.Clear();
     }
 
     private void ClearAllPlayerCards()
     {
         playerCards.ForEach(card => card.Remove());
+        playerCards.Clear();
     }
 }

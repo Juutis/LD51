@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ public class GameManager : MonoBehaviour
 
     public Deck PlayerDeck { get { return playerDeck; } }
 
+    public int GetPlayerRemainingActions ()
+    {
+        return playerTimeline.GetRemainingActions();
+    }
 
     public void PlayCard(int cardIndex)
     {
@@ -51,7 +56,13 @@ public class GameManager : MonoBehaviour
         {
             // ai code needed
             int index = 0;
-            Card card = enemyDeck.PlayCard(index);
+
+            Card card = enemyDeck.PlaySkip(enemyTimeline.GetRemainingTime());
+
+            if (enemyDeck.HasPlayableCard(enemyTimeline.GetRemainingTime()))
+            {
+                card = enemyDeck.PlayCard(index);
+            }
 
             enemyTimeline.AddCard(card);
             UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(card, index));

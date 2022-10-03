@@ -49,24 +49,25 @@ public class UICardManager : MonoBehaviour
             canPlayCard = false;
             GameManager.main.PlayCard(card.Index);
             GameManager.main.ResolveAction();
-            PlayAction(card.Actions.Count);
+            PlayAction();
         }
     }
 
-    public void PlayAction(int actionsLeft)
+    public void PlayAction()
     {
         UIManager.main.AnimateClockRound(delegate
         {
-            actionsLeft -= 1;
+            // actionsLeft -= 1;
             UITimelineBar.main.NextStep();
-            if (actionsLeft <= 0)
+            Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
+            if (GameManager.main.GetPlayerRemainingActions() <= 0)
             {
                 canPlayCard = true;
             }
             else
             {
                 GameManager.main.ResolveAction();
-                PlayAction(actionsLeft);
+                PlayAction();
             }
         });
     }
@@ -82,6 +83,8 @@ public class UICardManager : MonoBehaviour
         {
             if (previousRoundFinished)
             {
+                cards.ForEach(x => Destroy(x.gameObject));
+                cards.Clear();
                 previousRoundFinished = false;
                 int index = 0;
                 pendingHand.ForEach(card => CreateUICard(ConvertCardData(card, index++)));

@@ -10,7 +10,10 @@ public class Card
     public List<CardAction> Actions;
     public Sprite CardArt;
 
-    public Card() { }
+    public Card()
+    {
+        Actions = new List<CardAction>();
+    }
     public Card(Card card)
     {
         Actions = new(card.Actions);

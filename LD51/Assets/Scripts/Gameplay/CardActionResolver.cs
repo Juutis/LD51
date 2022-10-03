@@ -9,6 +9,8 @@ public class CardActionResolver : MonoBehaviour
 {
     private Dictionary<CardActionType, IActionResolver> resolvers;
 
+    public GameObject CharacterPrefab;
+
     public void Start()
     {
         resolvers = new();

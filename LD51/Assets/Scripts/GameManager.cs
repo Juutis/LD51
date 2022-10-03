@@ -164,7 +164,8 @@ public class GameManager : MonoBehaviour
         // heal player a bit
         //currentGameState = GameState.ShuffleHand;
 
-        Enemy = Instantiate(enemyPrefab, worldRotator);
+        var graphics = enemyActionResolver.CharacterPrefab == null ? enemyPrefab : enemyActionResolver.CharacterPrefab;
+        Enemy = Instantiate(graphics, worldRotator);
         Enemy.transform.position = enemySpawn.position;
         return enemyActionResolver.GetComponent<Character>();
     }

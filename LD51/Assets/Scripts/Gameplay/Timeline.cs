@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class Timeline
@@ -100,18 +99,9 @@ public class Timeline
                 }
             }
             CardEffectInContext effect = new CardEffectInContext();
-            if (fromTargetEffect != CardEffect.None)
-            {
-                effect.Effect = fromTargetEffect;
-                effect.Type = Type;
-                effect.Amount = action.ActionAmount;
-            }
-            else
-            {
-                effect.Effect = fromSelfEffect;
-                effect.Type = Type;
-                effect.Amount = action.ActionAmount;
-            }
+            effect.Effect = fromTargetEffect;
+            effect.Type = Type;
+            effect.Amount = action.ActionAmount;
             return effect;
         }
         return noneEffect;

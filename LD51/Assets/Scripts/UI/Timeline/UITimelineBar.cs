@@ -122,6 +122,7 @@ public class UITimelineBar : MonoBehaviour
     public void ResetMarker()
     {
         timelineMarker.Move(-1);
+        HighlightNumbers();
     }
 
     public void NextStep()
@@ -145,6 +146,11 @@ public class UITimelineBar : MonoBehaviour
                 numbers[index].Unhighlight();
             }
         }
+    }
+
+    public void HighlightNumbers()
+    {
+        numbers.ForEach(number => number.Highlight());
     }
 
     private UITimelineAction GetCurrentAction(List<UITimelineCard> cards)

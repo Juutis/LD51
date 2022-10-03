@@ -67,6 +67,7 @@ public class UIManager : MonoBehaviour
     public void NextRoundDelayed()
     {
         UITimelineBar.main.NextRound();
+        enemyKilled = false;
     }
 
     public void ShowEnemyHealth()
@@ -87,7 +88,10 @@ public class UIManager : MonoBehaviour
             UICardManager.main.RemoveCard(card.Index);
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
         }
-        PlayEnemyCard();
+        if (!enemyKilled)
+        {
+            PlayEnemyCard();
+        }
         PlayAction();
         UICardManager.main.SetHandInactive();
         skipRoundButton.SetInactive();
@@ -118,6 +122,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    bool enemyKilled = false;
+    public void EnemyWasKilled()
+    {
+        Debug.Log("Enemy was killed!");
+        enemyKilled = true;
+    }
+
     public void PlayAction()
     {
         UITimelineBar.main.AnimateCurrentStep(
@@ -127,7 +138,7 @@ public class UIManager : MonoBehaviour
             {
                 // actionsLeft -= 1;
                 Debug.Log("Playing enemy card");
-                if (currentEnemy.Health > 0)
+                if (!enemyKilled)
                 {
                     PlayEnemyCard();
                 }
@@ -141,7 +152,10 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    PlayAction();
+                    if (!enemyKilled)
+                    {
+                        PlayAction();
+                    }
                 }
             }
         );

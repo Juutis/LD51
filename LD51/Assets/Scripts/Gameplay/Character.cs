@@ -8,6 +8,9 @@ public class Character : MonoBehaviour
     private int MaxHP;
     [SerializeField]
     private int HP;
+
+    public int MaxHealth { get { return MaxHP; } }
+    public int Health { get { return HP; } }
     private bool shield = false;
     private bool parry = false;
 
@@ -21,12 +24,11 @@ public class Character : MonoBehaviour
         {
             // Debug.Log($"Take damage, {gameObject.name}");
             HP = Mathf.Max(0, HP - damage);
+            if (HP <= 0)
+            {
+                return CardEffect.Killed;
+            }
             return CardEffect.Damaged;
-        }
-
-        if (HP <= 0)
-        {
-            return CardEffect.Killed;
         }
 
         return CardEffect.None;

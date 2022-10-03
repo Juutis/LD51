@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class CharacterAnimator : MonoBehaviour
 {
@@ -41,6 +42,10 @@ public class CharacterAnimator : MonoBehaviour
         } else if (selfAction == CardActionType.Parry) {
             animation = "parry";
         } else if (selfAction == CardActionType.Stunned) {
+            if (isAnimationPlaying("stunned") || isAnimationPlaying("slash_parry")) {
+                return;
+            }
+            animation = "stunned";
         }
         anim.Play(animation);
     }
@@ -66,5 +71,11 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Idle() {
         anim.Play("idle");
+    }
+
+    private bool isAnimationPlaying(string name) {
+        var isPlaying = anim.GetCurrentAnimatorClipInfo(0).Where(it => it.clip.name == name).Count() > 0;
+        Debug.Log("Animation " + name + " is playing: " + isPlaying);
+        return isPlaying;
     }
 }

@@ -39,7 +39,7 @@ public class UICardManager : MonoBehaviour
     private bool canPlayCard = true;
     public bool CanPlayCard { get { return canPlayCard; } set { canPlayCard = value; } }
 
-    private bool previousRoundFinished = true;
+    private bool previousRoundFinished = false;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
 
     public void SkipRound()

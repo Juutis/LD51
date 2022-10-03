@@ -69,10 +69,7 @@ public class CharacterAnimationManager : MonoBehaviour
         {
             playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterAnimator>();
         }
-        if (enemyAnimator == null)
-        {
-            enemyAnimator = GameObject.FindGameObjectWithTag("Enemy").GetComponent<CharacterAnimator>();
-        }
+        enemyAnimator = GameManager.main.Enemy.GetComponent<CharacterAnimator>();
     }
 
     private float animationLength = 1f;
@@ -100,6 +97,12 @@ public class CharacterAnimationManager : MonoBehaviour
     {
         FetchAnimators();
         enemyAnimator.Die();
+        Invoke("HideEnemyHP", 0.2f);
+    }
+
+    public void HideEnemyHP()
+    {
+        UIManager.main.HideEnemyHp();
     }
 
     private bool walking = false;

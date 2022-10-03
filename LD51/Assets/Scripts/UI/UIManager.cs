@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
 
     private float basicUIBreakDuration = 0.4f;
 
+
     private void Start()
     {
         playerHealthDisplay.Initialize(playerHealth, playerHealth);
@@ -51,11 +52,30 @@ public class UIManager : MonoBehaviour
         skipRoundButton.SetInactive();
     }
 
+    private Character currentEnemy;
 
     public void NewEnemy()
     {
-        GameManager.main.ProcessNewEnemy();
-        InitializeEnemyHealth();
+        currentEnemy = GameManager.main.ProcessNewEnemy();
+        CharacterAnimationManager.main.WalkToNextEnemy();
+
+        UITimelineBar.main.Clear();
+        Invoke("NextRoundDelayed", 3f);
+        Invoke("ShowEnemyHealth", 3f);
+    }
+
+    public void NextRoundDelayed()
+    {
+        UITimelineBar.main.NextRound();
+    }
+
+    public void ShowEnemyHealth()
+    {
+        if (currentEnemy != null)
+        {
+            InitializeEnemyHealth(currentEnemy.MaxHealth);
+            UICardManager.main.PreviousRoundFinished = true;
+        }
     }
 
     public void PlayCard(UICardData card)
@@ -76,12 +96,17 @@ public class UIManager : MonoBehaviour
     {
         UITimelineBar.main.ResetMarker();
         GameManager.main.ProcessShuffle();
-        skipRoundButton.SetActiveAgain();
+        //skipRoundButton.SetActiveAgain();
     }
 
-    public void InitializeEnemyHealth()
+    public void InitializeEnemyHealth(int hp)
     {
-        enemyHealthDisplay.Initialize(playerHealth, playerHealth);
+        enemyHealthDisplay.Initialize(hp, hp);
+    }
+
+    public void HideEnemyHp()
+    {
+        enemyHealthDisplay.Hide();
     }
 
     private void PlayEnemyCard()
@@ -102,7 +127,10 @@ public class UIManager : MonoBehaviour
             {
                 // actionsLeft -= 1;
                 Debug.Log("Playing enemy card");
-                PlayEnemyCard();
+                if (currentEnemy.Health > 0)
+                {
+                    PlayEnemyCard();
+                }
                 UITimelineBar.main.NextStep();
                 Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
                 if (GameManager.main.GetPlayerRemainingActions() <= 0)
@@ -169,7 +197,7 @@ public class UIManager : MonoBehaviour
     private void ProcessCardEffect(CardEffectInContext effect)
     {
         Debug.Log($"Processing effect: {effect.Effect} |{effect.Type} | {effect.Amount}");
-        if (effect.Effect == CardEffect.Damaged)
+        if (effect.Effect == CardEffect.Damaged || effect.Effect == CardEffect.Killed)
         {
             if (effect.Type == TimelineType.Enemy)
             {
@@ -180,9 +208,20 @@ public class UIManager : MonoBehaviour
                 UIManager.main.ShowEnemyTakeDamage(effect.Amount);
             }
         }
+        if (effect.Effect == CardEffect.Killed)
+        {
+            if (effect.Type == TimelineType.Enemy)
+            {
+                CharacterAnimationManager.main.PlayPlayerDead();
+            }
+            else
+            {
+                CharacterAnimationManager.main.PlayEnemyDead();
+                Invoke("NewEnemy", 1.0f);
+            }
+        }
         effects.Remove(effect);
     }
-
 
     public void AnimateClockRound(UnityAction afterRoundAction)
     {

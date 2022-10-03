@@ -56,6 +56,13 @@ public class UITimelineBar : MonoBehaviour
         ClearAllPlayerCards();
     }
 
+    public void NextRound()
+    {
+        UICardManager.main.PreviousRoundFinished = true;
+        timelinePosition = -1;
+        UIManager.main.DrawHand();
+    }
+
     public void AnimateCurrentStep(RectTransform playerPosition, RectTransform enemyPosition, UnityAction callback)
     {
         UITimelineAction playerAction = GetCurrentAction(playerCards);
@@ -123,9 +130,7 @@ public class UITimelineBar : MonoBehaviour
         if (timelinePosition >= timelineMaxIndex)
         {
             Clear();
-            UICardManager.main.PreviousRoundFinished = true;
-            timelinePosition = -1;
-            UIManager.main.DrawHand();
+            NextRound();
         }
         UnhighlightActionsAndCards(playerCards);
         UnhighlightActionsAndCards(enemyCards);

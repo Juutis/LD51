@@ -1866,6 +1866,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[0].Sprite
+      value: 
+      objectReference: {fileID: -2116781104, guid: df187e75cf0b9c945b7ba9ac816d9ee2,
+        type: 3}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[1].Sprite
+      value: 
+      objectReference: {fileID: -1544013262, guid: df187e75cf0b9c945b7ba9ac816d9ee2,
+        type: 3}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[2].Sprite
+      value: 
+      objectReference: {fileID: -310775369, guid: df187e75cf0b9c945b7ba9ac816d9ee2,
+        type: 3}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[3].Sprite
+      value: 
+      objectReference: {fileID: 1572502, guid: df187e75cf0b9c945b7ba9ac816d9ee2, type: 3}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[4].Sprite
+      value: 
+      objectReference: {fileID: 923075407, guid: df187e75cf0b9c945b7ba9ac816d9ee2,
+        type: 3}
+    - target: {fileID: 6334681423919223488, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
+        type: 3}
+      propertyPath: actionIcons.Array.data[7].Sprite
+      value: 
+      objectReference: {fileID: 722349718, guid: df187e75cf0b9c945b7ba9ac816d9ee2,
+        type: 3}
     - target: {fileID: 9078903877534021295, guid: 4d92a452abfa35946a6d6aad4f5de3ae,
         type: 3}
       propertyPath: m_Name

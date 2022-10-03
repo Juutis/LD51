@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
     public GameObject Enemy;
     private Transform worldRotator;
 
-    public void Start() {
+    public void Start()
+    {
         enemySpawn = GameObject.FindGameObjectWithTag("EnemySpawn").transform;
         worldRotator = GameObject.FindGameObjectWithTag("Environment Rotator").transform;
     }
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Play cards");
             Card card = playerDeck.PlayCard(cardIndex);
-
+            Debug.Log($"Card {card.Actions.Count}");
             playerTimeline.AddCard(card);
             return card;
         }
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Play cards");
             int actionsLeft = GetPlayerRemainingTime();
-            Card card = new Card();
+            Card card = new Card(-1);
 
             for (int i = 0; i < actionsLeft; i++)
             {
@@ -89,14 +90,12 @@ public class GameManager : MonoBehaviour
     {
         if (enemyTimeline.GetCurrentAction() == null)
         {
-            // ai code needed
-            int index = 0;
+            int remainingTime = enemyTimeline.GetRemainingTime();
+            Card card = enemyDeck.PlaySkip(remainingTime);
 
-            Card card = enemyDeck.PlaySkip(enemyTimeline.GetRemainingTime());
-
-            if (enemyDeck.HasPlayableCard(enemyTimeline.GetRemainingTime()))
+            if (enemyDeck.HasPlayableCard(remainingTime))
             {
-                card = enemyDeck.PlayCard(index);
+                card = enemyDeck.PlayCardMaxLength(remainingTime);
             }
 
             enemyTimeline.AddCard(card);
@@ -147,12 +146,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ProcessNewEnemy()
+    public Character ProcessNewEnemy()
     {
         currentEnemy++;
-        if (currentEnemy >= enemies.Count) {
+        if (currentEnemy >= enemies.Count)
+        {
             Debug.Log("YOU WIN");
-            return;
+            return null;
         }
         enemyActionResolver = enemies[currentEnemy];
         playerTimeline.Reset();
@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
 
         Enemy = Instantiate(enemyPrefab, worldRotator);
         Enemy.transform.position = enemySpawn.position;
+        return enemyActionResolver.GetComponent<Character>();
     }
 
     public void ProcessShuffle()
@@ -235,6 +236,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Do stuff
                     Debug.Log("Enemy killed");
+                    UIManager.main.EnemyWasKilled();
                     //urrentGameState = GameState.EnemyDead;
                     break;
                 }

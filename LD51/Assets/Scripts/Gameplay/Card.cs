@@ -11,12 +11,16 @@ public class Card
     public List<CardAction> Actions;
     public Sprite CardArt;
 
-    public Card()
+    public int Index;
+
+    public Card(int index)
     {
         Actions = new List<CardAction>();
+        Index = index;
     }
-    public Card(Card card)
+    public Card(Card card, int index)
     {
+        Index = index;
         Actions = new(card.Actions.Select(x => x.Clone()));
         CardArt = card.CardArt;
     }

@@ -106,6 +106,12 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         inactive = true;
         grayScaledImages.ForEach(x => x.material = grayscaleMaterial);
     }
+
+    public void SetActiveAgain()
+    {
+        inactive = false;
+        grayScaledImages.ForEach(x => x.material = null);
+    }
 }
 
 

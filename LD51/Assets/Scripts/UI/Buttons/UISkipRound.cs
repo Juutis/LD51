@@ -11,16 +11,26 @@ public class UISkipRound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField]
     private Color originalColor;
     [SerializeField]
+    private Color inactiveColor;
+    [SerializeField]
     private Color highlightColor;
+
+    private bool isActive = true;
 
     private void Highlight()
     {
-        backgroundImage.color = highlightColor;
+        if (isActive)
+        {
+            backgroundImage.color = highlightColor;
+        }
     }
 
     private void Unhighlight()
     {
-        backgroundImage.color = originalColor;
+        if (isActive)
+        {
+            backgroundImage.color = originalColor;
+        }
     }
 
     private void Select()
@@ -29,6 +39,18 @@ public class UISkipRound : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         {
             UICardManager.main.SkipRound();
         }
+    }
+
+    public void SetInactive()
+    {
+        isActive = false;
+        backgroundImage.color = inactiveColor;
+    }
+
+    public void SetActiveAgain()
+    {
+        isActive = true;
+        backgroundImage.color = originalColor;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

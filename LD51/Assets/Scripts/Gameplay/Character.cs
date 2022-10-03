@@ -8,6 +8,9 @@ public class Character : MonoBehaviour
     private int MaxHP;
     [SerializeField]
     private int HP;
+
+    public int MaxHealth { get { return MaxHP; } }
+    public int Health { get { return HP; } }
     private bool shield = false;
     private bool parry = false;
 

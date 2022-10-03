@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using System.Linq;
 
 public class UITimelineBar : MonoBehaviour
@@ -30,6 +31,9 @@ public class UITimelineBar : MonoBehaviour
     private List<UITimelineNumber> numbers = new();
     private int timelinePosition = -1;
     private int timelineMaxIndex = 9;
+    private UnityAction callback;
+
+    private float durationBetweenActions = 2f;
     void Start()
     {
         CreateNumbers();
@@ -52,17 +56,38 @@ public class UITimelineBar : MonoBehaviour
         ClearAllPlayerCards();
     }
 
-    public void AnimateCurrentStep(RectTransform playerPosition, RectTransform enemyPosition)
+    public void NextRound()
     {
-        Debug.Log("AnimateCurrent");
+        UICardManager.main.PreviousRoundFinished = true;
+        timelinePosition = -1;
+        UIManager.main.DrawHand();
+    }
+
+    public void AnimateCurrentStep(RectTransform playerPosition, RectTransform enemyPosition, UnityAction callback)
+    {
         UITimelineAction playerAction = GetCurrentAction(playerCards);
         UITimelineAction enemyAction = GetCurrentAction(enemyCards);
+        this.callback = callback;
 
         if (playerAction)
         {
             playerAction.AnimatePerform(playerPosition.position, delegate
             {
-                CharacterAnimationManager.main.PlayAnimations(playerAction, enemyAction);
+                UITimelineBar.main.MoveMarker();
+                Invoke("Resolve", 0.5f);
+                UIManager.main.AnimateClockRound(delegate
+                {
+
+                });
+                CharacterAnimationManager.main.PlayAnimations(playerAction, enemyAction, delegate
+                {
+                    playerAction.Reset();
+                    if (enemyAction)
+                    {
+                        enemyAction.Reset();
+                    }
+                });
+                Invoke("RunCallback", durationBetweenActions);
             });
         }
         if (enemyAction)
@@ -72,17 +97,42 @@ public class UITimelineBar : MonoBehaviour
 
     }
 
+    public void Resolve()
+    {
+        Debug.Log("Resolving things");
+        GameManager.main.ProcessResolveAction();
+        GameManager.main.ProcessResetTurnEffects();
+    }
+
+    public void RunCallback()
+    {
+        callback();
+    }
+
+    public void MoveMarker()
+    {
+        int markerPosition = timelinePosition + 1;
+        if (timelinePosition >= timelineMaxIndex)
+        {
+            markerPosition = 0;
+        }
+        timelineMarker.Move(markerPosition);
+    }
+
+    public void ResetMarker()
+    {
+        timelineMarker.Move(-1);
+        HighlightNumbers();
+    }
+
     public void NextStep()
     {
         timelinePosition += 1;
         if (timelinePosition >= timelineMaxIndex)
         {
             Clear();
-            UICardManager.main.PreviousRoundFinished = true;
-            timelinePosition = -1;
-            UIManager.main.DrawHand();
+            NextRound();
         }
-        timelineMarker.Move(timelinePosition);
         UnhighlightActionsAndCards(playerCards);
         UnhighlightActionsAndCards(enemyCards);
         for (int index = 0; index < numbers.Count; index += 1)
@@ -96,6 +146,11 @@ public class UITimelineBar : MonoBehaviour
                 numbers[index].Unhighlight();
             }
         }
+    }
+
+    public void HighlightNumbers()
+    {
+        numbers.ForEach(number => number.Highlight());
     }
 
     private UITimelineAction GetCurrentAction(List<UITimelineCard> cards)
@@ -171,7 +226,6 @@ public class UITimelineBar : MonoBehaviour
 
     private UITimelineCard CreateCard(Transform container, UICardData cardData)
     {
-        Debug.Log("Create timeline card");
         UITimelineCard card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, container);
         card.Initialize(cardData);
         return card;

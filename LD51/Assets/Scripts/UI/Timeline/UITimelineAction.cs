@@ -47,7 +47,6 @@ public class UITimelineAction : MonoBehaviour
                 animateTimer = 0f;
                 isAnimating = false;
                 rt.position = targetPosition;
-                Invoke("Reset", stayDuration);
                 if (callback != null)
                 {
                     callback();
@@ -82,14 +81,12 @@ public class UITimelineAction : MonoBehaviour
         {
             this.callback = callback;
             targetPosition = target;
-            Debug.Log("AnimatePerform");
             Invoke("AnimateWithDelay", animateDelay);
         }
     }
 
     private void AnimateWithDelay()
     {
-        Debug.Log("AnimateWithDelay");
         isAnimating = true;
         originalPosition = rt.position;
     }

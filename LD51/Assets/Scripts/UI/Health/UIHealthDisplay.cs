@@ -32,6 +32,11 @@ public class UIHealthDisplay : MonoBehaviour
         container.SetActive(false);
     }
 
+    public void Hide()
+    {
+        container.SetActive(false);
+    }
+
     public void Initialize(int value, int max)
     {
         container.SetActive(true);

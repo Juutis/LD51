@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     private UIPoppingText poppingTextPrefab;
     [SerializeField]
     private UIClock uiClock;
+    [SerializeField]
+    private UISkipRound skipRoundButton;
 
     [SerializeField]
     private Transform poppingTextContainer;
@@ -33,7 +35,7 @@ public class UIManager : MonoBehaviour
     private RectTransform enemyActionPosition;
 
     private float animateEffectTimer = 0f;
-    private float animateEffectDuration = 0.01f;
+    private float animateEffectDuration = 0f;
 
     private CardEffectInContext animatedEffect;
     private bool isAnimating = false;
@@ -47,35 +49,68 @@ public class UIManager : MonoBehaviour
         playerHealthDisplay.Initialize(playerHealth, playerHealth);
         Invoke("NewEnemy", basicUIBreakDuration);
         Invoke("DrawHand", basicUIBreakDuration * 2);
+        skipRoundButton.SetInactive();
     }
 
+    private Character currentEnemy;
 
     public void NewEnemy()
     {
-        GameManager.main.ProcessNewEnemy();
-        InitializeEnemyHealth();
+        currentEnemy = GameManager.main.ProcessNewEnemy();
         CharacterAnimationManager.main.WalkToNextEnemy();
+
+        UITimelineBar.main.Clear();
+        Invoke("NextRoundDelayed", 3f);
+        Invoke("ShowEnemyHealth", 3f);
+    }
+
+    public void NextRoundDelayed()
+    {
+        UITimelineBar.main.NextRound();
+        enemyKilled = false;
+    }
+
+    public void ShowEnemyHealth()
+    {
+        if (currentEnemy != null)
+        {
+            InitializeEnemyHealth(currentEnemy.MaxHealth);
+            UICardManager.main.PreviousRoundFinished = true;
+        }
     }
 
     public void PlayCard(UICardData card)
     {
+        Debug.Log($"Playing card: {card.Index} -> {card.Actions.Count}");
         Card playerCard = GameManager.main.PlayCard(card.Index);
         if (playerCard != null)
         {
             UICardManager.main.RemoveCard(card.Index);
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
         }
-        PlayEnemyCard();
+        if (!enemyKilled)
+        {
+            PlayEnemyCard();
+        }
         PlayAction();
+        UICardManager.main.SetHandInactive();
+        skipRoundButton.SetInactive();
     }
     public void DrawHand()
     {
+        UITimelineBar.main.ResetMarker();
         GameManager.main.ProcessShuffle();
+        //skipRoundButton.SetActiveAgain();
     }
 
-    public void InitializeEnemyHealth()
+    public void InitializeEnemyHealth(int hp)
     {
-        enemyHealthDisplay.Initialize(playerHealth, playerHealth);
+        enemyHealthDisplay.Initialize(hp, hp);
+    }
+
+    public void HideEnemyHp()
+    {
+        enemyHealthDisplay.Hide();
     }
 
     private void PlayEnemyCard()
@@ -87,29 +122,44 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    bool enemyKilled = false;
+    public void EnemyWasKilled()
+    {
+        Debug.Log("Enemy was killed!");
+        enemyKilled = true;
+    }
+
     public void PlayAction()
     {
         UITimelineBar.main.AnimateCurrentStep(
             playerActionPosition,
-            enemyActionPosition
+            enemyActionPosition,
+            delegate
+            {
+                // actionsLeft -= 1;
+                Debug.Log("Playing enemy card");
+                if (!enemyKilled)
+                {
+                    PlayEnemyCard();
+                }
+                UITimelineBar.main.NextStep();
+                Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
+                if (GameManager.main.GetPlayerRemainingActions() <= 0)
+                {
+                    UICardManager.main.CanPlayCard = true;
+                    UICardManager.main.SetPlayableCardsActive();
+                    skipRoundButton.SetActiveAgain();
+                }
+                else
+                {
+                    if (!enemyKilled)
+                    {
+                        PlayAction();
+                    }
+                }
+            }
         );
-        UIManager.main.AnimateClockRound(delegate
-        {
-            // actionsLeft -= 1;
-            GameManager.main.ProcessResolveAction();
-            GameManager.main.ProcessResetTurnEffects();
-            PlayEnemyCard();
-            UITimelineBar.main.NextStep();
-            Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
-            if (GameManager.main.GetPlayerRemainingActions() <= 0)
-            {
-                UICardManager.main.CanPlayCard = true;
-            }
-            else
-            {
-                PlayAction();
-            }
-        });
+
     }
 
     private void Update()

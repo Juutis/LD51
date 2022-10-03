@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterAnimationManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
     private Transform enemyArea;
     private float enemyTriggerDistance = 0.5f;
+    private UnityAction callback;
 
     private void Awake()
     {
@@ -48,12 +50,14 @@ public class CharacterAnimationManager : MonoBehaviour
             TriggerEnemyDead = false;
         }
 
-        if (walking) {
+        if (walking)
+        {
             var targetPos = enemyArea.position;
             targetPos.y = 0.0f;
             var enemyPos = enemyAnimator.transform.position;
             enemyPos.y = 0.0f;
-            if (Vector3.Distance(targetPos, enemyPos) < enemyTriggerDistance) {
+            if (Vector3.Distance(targetPos, enemyPos) < enemyTriggerDistance)
+            {
                 StopWalk();
             }
         }
@@ -68,11 +72,19 @@ public class CharacterAnimationManager : MonoBehaviour
         enemyAnimator = GameManager.main.Enemy.GetComponent<CharacterAnimator>();
     }
 
-    public void PlayAnimations(UITimelineAction playerAction, UITimelineAction enemyAction)
+    private float animationLength = 1f;
+    public void PlayAnimations(UITimelineAction playerAction, UITimelineAction enemyAction, UnityAction callback)
     {
+        this.callback = callback;
         FetchAnimators();
         playerAnimator.Animate(playerAction.Data.Type, enemyAction.Data.Type);
         enemyAnimator.Animate(enemyAction.Data.Type, playerAction.Data.Type);
+        Invoke("RunCallback", animationLength);
+    }
+
+    public void RunCallback()
+    {
+        callback();
     }
 
     public void PlayPlayerDead()
@@ -85,6 +97,12 @@ public class CharacterAnimationManager : MonoBehaviour
     {
         FetchAnimators();
         enemyAnimator.Die();
+        Invoke("HideEnemyHP", 0.2f);
+    }
+
+    public void HideEnemyHP()
+    {
+        UIManager.main.HideEnemyHp();
     }
 
     private bool walking = false;

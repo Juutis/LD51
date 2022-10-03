@@ -6,7 +6,7 @@ using UnityEngine;
 public class Deck : MonoBehaviour
 {
     [SerializeField]
-    private List<CardConfig> deck = new();
+    private List<CardCount> deck = new();
     private Queue<Card> currentDeck = new();
     private List<Card> hand = new();
     private const int handSize = 5;
@@ -16,11 +16,6 @@ public class Deck : MonoBehaviour
         return hand;
     }
 
-    public List<CardConfig> GetDeck()
-    {
-        return deck;
-    }
-
     public Queue<Card> GetCurrentDeck()
     {
         return currentDeck;
@@ -28,10 +23,15 @@ public class Deck : MonoBehaviour
 
     public Queue<Card> ShuffleNewDeck()
     {
+        var cards = new List<Card>();
+        foreach(var cardAmount in deck) {
+            for(var i = 0; i < cardAmount.count; i++) {
+                cards.Add(new Card(cardAmount.card.Card, -1));
+            }
+        }
+
         currentDeck = new Queue<Card>(
-            deck
-                .OrderBy(x => Random.Range(0, deck.Count))
-                .Select((x, index) => new Card(x.Card, -1))
+            cards.OrderBy(x => Random.Range(0, deck.Count))
         );
 
         return currentDeck;
@@ -54,12 +54,14 @@ public class Deck : MonoBehaviour
         //Card card = hand[i];
         //hand.RemoveAt(i);
         Card foundCard = hand.ToList().FirstOrDefault(card => card.Index == cardId);
+        hand.Remove(foundCard);
         return foundCard;
     }
 
     public Card PlayCardMaxLength(int maxLength)
     {
         Card card = hand.ToList().FirstOrDefault(card => card.Actions.Count <= maxLength);
+        hand.Remove(card);
         return card;
     }
 
@@ -85,4 +87,10 @@ public class Deck : MonoBehaviour
 
         return hasPlayable;
     }
+}
+
+[System.Serializable]
+public struct CardCount{
+    public CardConfig card;
+    public int count;
 }

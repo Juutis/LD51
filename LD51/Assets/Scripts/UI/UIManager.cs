@@ -138,7 +138,7 @@ public class UIManager : MonoBehaviour
             {
                 // actionsLeft -= 1;
                 Debug.Log("Playing enemy card");
-                if (!enemyKilled)
+                if (!enemyKilled && GameManager.main.GetPlayerRemainingActions() > 0)
                 {
                     PlayEnemyCard();
                 }

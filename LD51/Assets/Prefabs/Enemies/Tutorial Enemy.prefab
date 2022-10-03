@@ -17,7 +17,7 @@ PrefabInstance:
     - target: {fileID: 8341953893578530130, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Tutorial Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -32,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -125,6 +125,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7b106d3a38dd4094b8df13e9285178ee,
         type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[0].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 8819522ab040d294d84d4e13671896ca,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[1].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 13e1671005f02b1418514d7f3770a92b,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2].card
+      value: 
+      objectReference: {fileID: 11400000, guid: a133d29e5f4e2f44aa810cfca06055f8,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[3].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 07ffe8b21cc96084aa4efb8cc2d15269,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[4].card
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b106d3a38dd4094b8df13e9285178ee,
+        type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[0].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[1].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[3].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[4].count
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c340b7315745d642ad6089c224b778c, type: 3}

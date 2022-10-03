@@ -82,7 +82,9 @@ public class GameManager : MonoBehaviour
             }
 
             playerTimeline.AddCard(card);
-            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, -1));
+            var uiCard = UICardManager.main.ConvertCardData(card, -1);
+            UITimelineBar.main.CreatePlayerCard(uiCard);
+            UIManager.main.PlayCard(uiCard);
         }
     }
 

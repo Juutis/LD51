@@ -53,11 +53,7 @@ public class UIHealthDisplay : MonoBehaviour
 
     public void AnimateValue(int value)
     {
-        if (value > maxValue)
-        {
-            Debug.LogError($"Trying to set UI Health value to {value} which is above the max value of {maxValue}!");
-            return;
-        }
+        value = Mathf.Clamp(value, 0, maxValue);
         animateStartValue = currentValue;
         targetValue = value;
         animator.Play("healthUpdate");

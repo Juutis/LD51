@@ -34,6 +34,11 @@ public class Character : MonoBehaviour
         return CardEffect.None;
     }
 
+    public void ClampHP()
+    {
+        HP = Mathf.Min(MaxHealth, HP);
+    }
+
     public void SetShield(bool isShield)
     {
         shield = isShield;
@@ -46,6 +51,6 @@ public class Character : MonoBehaviour
 
     public void Heal(int heal)
     {
-        HP = Mathf.Min(MaxHP, HP + heal);
+        HP = HP + heal; // Mathf.Min(MaxHP, HP + heal);
     }
 }

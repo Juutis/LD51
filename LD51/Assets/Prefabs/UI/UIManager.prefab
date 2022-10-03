@@ -1860,6 +1860,7 @@ GameObject:
   - component: {fileID: 6646988280520385638}
   - component: {fileID: 4290931496986655206}
   - component: {fileID: 8916117309700098929}
+  - component: {fileID: 829583325504510312}
   m_Layer: 0
   m_Name: YOU WIN
   m_TagString: Untagged
@@ -1908,6 +1909,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9746df4a64913642a5343f586d76bd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &829583325504510312
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8182920235682326326}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 900
+  m_TargetDisplay: 0
 --- !u!1 &8184707752426146887
 GameObject:
   m_ObjectHideFlags: 0
@@ -2101,13 +2124,14 @@ GameObject:
   - component: {fileID: 7154768115546767710}
   - component: {fileID: 8892282578871310097}
   - component: {fileID: 411309421618321091}
+  - component: {fileID: 2560972705555937611}
   m_Layer: 0
   m_Name: YOU DIED
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7154768115546767710
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2149,6 +2173,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9746df4a64913642a5343f586d76bd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &2560972705555937611
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8732895422219038598}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 900
+  m_TargetDisplay: 0
 --- !u!1001 &1130114372228011674
 PrefabInstance:
   m_ObjectHideFlags: 0

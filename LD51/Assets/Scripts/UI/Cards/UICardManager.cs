@@ -42,6 +42,16 @@ public class UICardManager : MonoBehaviour
     private bool previousRoundFinished = true;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
 
+    public void SkipRound()
+    {
+        if (canPlayCard)
+        {
+            GameManager.main.SkipRound();
+            GameManager.main.ResolveAction();
+            PlayAction();
+        }
+    }
+
     public void PlayCard(UICardData card)
     {
         if (canPlayCard)
@@ -91,6 +101,9 @@ public class UICardManager : MonoBehaviour
                 pendingHand = null;
             }
         }
+
+        int timeLeft = GameManager.main.GetPlayerRemainingTime();
+        cards.Where(x => x.Cost > timeLeft).ToList().ForEach(x => x.SetInactive());
     }
 
 

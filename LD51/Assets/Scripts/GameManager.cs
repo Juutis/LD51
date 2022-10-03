@@ -32,9 +32,14 @@ public class GameManager : MonoBehaviour
 
     public Deck PlayerDeck { get { return playerDeck; } }
 
-    public int GetPlayerRemainingActions ()
+    public int GetPlayerRemainingActions()
     {
         return playerTimeline.GetRemainingActions();
+    }
+
+    public int GetPlayerRemainingTime()
+    {
+        return playerTimeline.GetRemainingTime();
     }
 
     public void PlayCard(int cardIndex)
@@ -47,6 +52,24 @@ public class GameManager : MonoBehaviour
             playerTimeline.AddCard(card);
             UICardManager.main.RemoveCard(cardIndex);
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, cardIndex));
+        }
+    }
+
+    public void SkipRound()
+    {
+        if (playerTimeline.GetCurrentAction() == null)
+        {
+            Debug.Log("Play cards");
+            int actionsLeft = GetPlayerRemainingTime();
+            Card card = new Card();
+
+            for(int i = 0; i < actionsLeft; i++)
+            {
+                card.Actions.Add(new CardAction { ActionAmount = 1, ActionType = CardActionType.Wait });
+            }
+
+            playerTimeline.AddCard(card);
+            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, -1));
         }
     }
 

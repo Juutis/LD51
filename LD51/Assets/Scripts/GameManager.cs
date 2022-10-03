@@ -237,6 +237,7 @@ public class GameManager : MonoBehaviour
                 {
                     // Do stuff
                     Debug.Log("Enemy killed");
+                    UIManager.main.EnemyWasKilled();
                     //urrentGameState = GameState.EnemyDead;
                     break;
                 }

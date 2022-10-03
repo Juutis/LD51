@@ -14,6 +14,7 @@ public class CharacterAnimator : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -107,5 +108,12 @@ public class CharacterAnimator : MonoBehaviour
         }
         var isPlaying = anim.GetCurrentAnimatorClipInfo(0).Where(it => it.clip.name == name).Count() > 0;
         return isPlaying;
+    }
+
+    public AudioClip[] slash;
+    private AudioSource audioSource;
+
+    public void PlaySlash() {
+        audioSource.PlayOneShot(slash[Random.Range(0, slash.Length)]);
     }
 }

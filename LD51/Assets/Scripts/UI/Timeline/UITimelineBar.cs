@@ -118,6 +118,17 @@ public class UITimelineBar : MonoBehaviour
         playerCards.Add(card);
         return card;
     }
+
+    public UITimelineCard GetLastPlayerCard()
+    {
+        return playerCards[playerCards.Count - 1];
+    }
+
+    public UITimelineCard GetLastEnemyCard()
+    {
+        return enemyCards[enemyCards.Count - 1];
+    }
+
     private UITimelineCard CreateCard(Transform container, UICardData cardData)
     {
         UITimelineCard card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, container);

@@ -66,8 +66,25 @@ public class Timeline
                     }
                     else
                     {
-                        actions[currentStep + 1].ActionType = CardActionType.Stunned;
-                        actions[currentStep + 1].ActionAmount = 1;
+                        UITimelineCard uiCard;
+                        if (timelineType == TimelineType.Enemy)
+                        {
+                            uiCard = UITimelineBar.main.GetLastEnemyCard();
+                        }
+                        else
+                        {
+                            uiCard = UITimelineBar.main.GetLastPlayerCard();
+                        }
+
+                        for (int i = currentStep; i < actions.Count; i++)
+                        {
+                            actions[i].ActionType = CardActionType.Stunned;
+                            actions[i].ActionAmount = 1;
+                        }
+
+                        // TODO: Mark stun on only the future actions
+                        Sprite stunIcon = UICardManager.main.GetActionIcon(CardActionType.Stunned)?.Sprite;
+                        uiCard.Actions.ForEach(x => x.SetImage(stunIcon));
                     }
 
                     Debug.Log(string.Join(", ", actions.Select(x => x.ActionType)));

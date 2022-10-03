@@ -138,6 +138,11 @@ public class UICardManager : MonoBehaviour
             Destroy(card.gameObject);
         }
     }
+
+    public ActionIcon GetActionIcon(CardActionType type)
+    {
+        return actionIcons.FirstOrDefault(x => x.Type == type);
+    }
 }
 
 [System.Serializable]

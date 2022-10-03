@@ -17,7 +17,7 @@ PrefabInstance:
     - target: {fileID: 8341953893578530130, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: m_Name
-      value: Tutorial Enemy
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -32,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: deck.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
@@ -123,7 +123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: deck.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: 14034cf49f745cb4c969c698fd2bee5a,
+      objectReference: {fileID: 11400000, guid: 7b106d3a38dd4094b8df13e9285178ee,
         type: 2}
     m_RemovedComponents: []
     m_AddedGameObjects: []

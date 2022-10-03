@@ -11,6 +11,16 @@ public class Deck : MonoBehaviour
     private List<Card> hand = new();
     private const int handSize = 5;
 
+    void Start() {
+        var sum = 0;
+        foreach(var cardAmount in deck) {
+            sum += cardAmount.count;
+        }
+        if (sum % 5 != 0) {
+            Debug.LogError("Deck size not divisible by 5: " + sum, gameObject);
+        }
+    }
+
     public List<Card> GetHand()
     {
         return hand;

@@ -14,6 +14,7 @@ public class CharacterAnimator : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -107,5 +108,32 @@ public class CharacterAnimator : MonoBehaviour
         }
         var isPlaying = anim.GetCurrentAnimatorClipInfo(0).Where(it => it.clip.name == name).Count() > 0;
         return isPlaying;
+    }
+
+    public AudioClip[] slash;
+    public AudioClip[] block;
+    public AudioClip[] swing;
+    public AudioClip[] drink;
+    public AudioClip[] footstep;
+    public AudioClip[] parry;
+    private AudioSource audioSource;
+
+    public void PlaySlash() {
+        audioSource.PlayOneShot(slash[Random.Range(0, slash.Length)]);
+    } 
+    public void PlayBlock() {
+        audioSource.PlayOneShot(block[Random.Range(0, block.Length)]);
+    }
+    public void PlaySwing() {
+        audioSource.PlayOneShot(swing[Random.Range(0, swing.Length)]);
+    }
+    public void PlayDrink() {
+        audioSource.PlayOneShot(drink[Random.Range(0, drink.Length)]);
+    }
+    public void PlayFootStep() {
+        audioSource.PlayOneShot(footstep[Random.Range(0, footstep.Length)]);
+    }
+    public void PlayParry() {
+        audioSource.PlayOneShot(parry[Random.Range(0, parry.Length)]);
     }
 }

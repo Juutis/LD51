@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1603789381291189237, guid: 73b0826563d83324f8007b701c61eecd,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2271277194588659427, guid: 73b0826563d83324f8007b701c61eecd,
         type: 3}
       propertyPath: m_Name

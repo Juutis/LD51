@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
 
-public class UITimelineAction : MonoBehaviour
+public class UITimelineAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image imgIcon;
@@ -35,7 +36,8 @@ public class UITimelineAction : MonoBehaviour
     private UICardActionData data;
     public UICardActionData Data { get { return data; } }
 
-    public void SetDataType(CardActionType type) {
+    public void SetDataType(CardActionType type)
+    {
         data.Type = type;
     }
 
@@ -105,6 +107,16 @@ public class UITimelineAction : MonoBehaviour
     public void SetImage(Sprite img)
     {
         imgIcon.sprite = img;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        UITooltip.main.Show($"{data.Type}", transform.position);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        UITooltip.main.Hide();
     }
 }
 

@@ -75,7 +75,6 @@ public class CharacterAnimator : MonoBehaviour
 
     private bool isAnimationPlaying(string name) {
         var isPlaying = anim.GetCurrentAnimatorClipInfo(0).Where(it => it.clip.name == name).Count() > 0;
-        Debug.Log("Animation " + name + " is playing: " + isPlaying);
         return isPlaying;
     }
 }

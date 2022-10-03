@@ -47,7 +47,7 @@ public class UICardManager : MonoBehaviour
 
 
     private Vector3 originalScale;
-    private Vector3 targetScale = new Vector3(1f, 1f, 1);
+    private Vector3 targetScale = new Vector3(1f, 1f, 1f);
     private float animateTimer = 0f;
     private float animateDuration = 1f;
     private bool isAnimating = false;
@@ -106,6 +106,7 @@ public class UICardManager : MonoBehaviour
         copyCard = Instantiate(uiCardPrefab, Vector2.zero, Quaternion.identity, currentCardContainer);
         copyCard.transform.position = enemyCardOriginalPos.position;
         copyCard.Initialize(ConvertCardData(enemyCard, -1));
+        targetScale = Vector3.one;
         targetPosition = enemyCardTarget.position;
         originalPosition = copyCard.transform.position;
         originalScale = copyCard.transform.localScale;
@@ -119,6 +120,7 @@ public class UICardManager : MonoBehaviour
         UICard card = FindCard(nextCard.Index);
         copyCard = Instantiate(card, card.transform.position, Quaternion.identity, currentCardContainer);
         copyCard.SetInactiveButNotGrayscale();
+        targetScale = new Vector3(0.5f, 0.5f, 1f);
         targetPosition = playerCardTarget.position;
         originalPosition = copyCard.transform.position;
         originalScale = copyCard.transform.localScale;

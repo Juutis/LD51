@@ -152,11 +152,6 @@ public class UIManager : MonoBehaviour
         UICardManager.main.AnimateEnemyCard(enemyCard, callback);
     }
 
-    public void AnimateEnemyCard(Card enemyCard, UnityAction callback)
-    {
-        UICardManager.main.AnimateEnemyCard(enemyCard, callback);
-    }
-
     bool enemyKilled = false;
     bool playerKilled = false;
     public GameObject YouDied, YouWin;

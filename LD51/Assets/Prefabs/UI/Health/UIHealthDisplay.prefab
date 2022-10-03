@@ -436,7 +436,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txtValue: {fileID: 4212701596554165835}
   imgValue: {fileID: 8458743181932297109}
+  container: {fileID: 2697300882275958307}
   animator: {fileID: 7013901856446948707}
+  showMaxValue: 0
 --- !u!95 &7013901856446948707
 Animator:
   serializedVersion: 4

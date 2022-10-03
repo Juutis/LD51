@@ -37,7 +37,7 @@ public class UICardManager : MonoBehaviour
 
     private List<Card> pendingHand;
     private bool canPlayCard = true;
-    public bool CanPlayCard { get { return canPlayCard; } }
+    public bool CanPlayCard { get { return canPlayCard; } set { canPlayCard = value; } }
 
     private bool previousRoundFinished = true;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
@@ -48,7 +48,7 @@ public class UICardManager : MonoBehaviour
         {
             GameManager.main.SkipRound();
             GameManager.main.ResolveAction();
-            PlayAction();
+            UIManager.main.PlayAction();
         }
     }
 
@@ -57,29 +57,8 @@ public class UICardManager : MonoBehaviour
         if (canPlayCard)
         {
             canPlayCard = false;
-            GameManager.main.PlayCard(card.Index);
-            GameManager.main.ResolveAction();
-            PlayAction();
+            UIManager.main.PlayCard(card);
         }
-    }
-
-    public void PlayAction()
-    {
-        UIManager.main.AnimateClockRound(delegate
-        {
-            // actionsLeft -= 1;
-            UITimelineBar.main.NextStep();
-            Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
-            if (GameManager.main.GetPlayerRemainingActions() <= 0)
-            {
-                canPlayCard = true;
-            }
-            else
-            {
-                GameManager.main.ResolveAction();
-                PlayAction();
-            }
-        });
     }
 
     public void DrawHand(List<Card> hand)
@@ -113,6 +92,7 @@ public class UICardManager : MonoBehaviour
         {
             Actions = card.Actions.Select((action) => new UICardActionData
             {
+                Type = action.ActionType,
                 Icon = actionIcons.FirstOrDefault(icon => icon.Type == action.ActionType).Sprite,
                 Count = action.ActionAmount
             }).ToList(),
@@ -137,6 +117,11 @@ public class UICardManager : MonoBehaviour
             cards.Remove(card);
             Destroy(card.gameObject);
         }
+    }
+
+    public ActionIcon GetActionIcon(CardActionType type)
+    {
+        return actionIcons.FirstOrDefault(x => x.Type == type);
     }
 }
 

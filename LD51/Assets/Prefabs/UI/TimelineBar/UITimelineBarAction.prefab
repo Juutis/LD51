@@ -481,6 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   imgIcon: {fileID: 6628464330518686674}
   grayScaleMaterial: {fileID: 2100000, guid: fb645393591eb0d41bbd3b7416c6ba33, type: 2}
+  container: {fileID: 5286224043040560178}
 --- !u!1 &8041450047630344220
 GameObject:
   m_ObjectHideFlags: 0

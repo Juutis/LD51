@@ -27,12 +27,88 @@ public class UIManager : MonoBehaviour
     private Transform playerPoppingTextPosition;
     [SerializeField]
     private Transform enemyPoppingTextPosition;
+    [SerializeField]
+    private RectTransform playerActionPosition;
+    [SerializeField]
+    private RectTransform enemyActionPosition;
 
     private float animateEffectTimer = 0f;
-    private float animateEffectDuration = 0.5f;
+    private float animateEffectDuration = 0.01f;
 
     private CardEffectInContext animatedEffect;
     private bool isAnimating = false;
+    private int playerHealth = 10;
+
+    private float basicUIBreakDuration = 0.4f;
+
+    private void Start()
+    {
+        playerHealthDisplay.Initialize(playerHealth, playerHealth);
+        Invoke("NewEnemy", basicUIBreakDuration);
+        Invoke("DrawHand", basicUIBreakDuration * 2);
+    }
+
+
+    public void NewEnemy()
+    {
+        GameManager.main.ProcessNewEnemy();
+        InitializeEnemyHealth();
+    }
+
+    public void PlayCard(UICardData card)
+    {
+        Card playerCard = GameManager.main.PlayCard(card.Index);
+        if (playerCard != null)
+        {
+            UICardManager.main.RemoveCard(card.Index);
+            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
+        }
+        PlayEnemyCard();
+        PlayAction();
+    }
+    public void DrawHand()
+    {
+        GameManager.main.ProcessShuffle();
+    }
+
+    public void InitializeEnemyHealth()
+    {
+        enemyHealthDisplay.Initialize(playerHealth, playerHealth);
+    }
+
+    private void PlayEnemyCard()
+    {
+        Card enemyCard = GameManager.main.PlayEnemyCard();
+        if (enemyCard != null)
+        {
+            UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(enemyCard, 0));
+        }
+    }
+
+    public void PlayAction()
+    {
+        UITimelineBar.main.AnimateCurrentStep(
+            playerActionPosition,
+            enemyActionPosition
+        );
+        UIManager.main.AnimateClockRound(delegate
+        {
+            // actionsLeft -= 1;
+            GameManager.main.ProcessResolveAction();
+            GameManager.main.ProcessResetTurnEffects();
+            PlayEnemyCard();
+            UITimelineBar.main.NextStep();
+            Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
+            if (GameManager.main.GetPlayerRemainingActions() <= 0)
+            {
+                UICardManager.main.CanPlayCard = true;
+            }
+            else
+            {
+                PlayAction();
+            }
+        });
+    }
 
     private void Update()
     {
@@ -71,7 +147,7 @@ public class UIManager : MonoBehaviour
     private List<CardEffectInContext> effects = new();
     public void AddEffect(CardEffectInContext effect)
     {
-        if (effect.Effect == CardEffect.None)
+        if (effect == null || effect.Effect == CardEffect.None)
         {
             return;
         }
@@ -116,6 +192,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowEnemyTakeDamage(int damage)
     {
+        Debug.Log("Enemy take damage: " + damage);
         ShowPoppingText(enemyPoppingTextPosition.position, $"-{damage}", AnimationDirection.Right, Color.red);
         enemyHealthDisplay.AnimateChange(-damage);
     }
@@ -124,12 +201,6 @@ public class UIManager : MonoBehaviour
     {
         ShowPoppingText(playerPoppingTextPosition.position, $"-{damage}", AnimationDirection.Left, Color.red);
         playerHealthDisplay.AnimateChange(-damage);
-    }
-
-    private void Start()
-    {
-        playerHealthDisplay.Initialize(10, 10);
-        enemyHealthDisplay.Initialize(10, 10);
     }
 
     public void AnimatePlayerHealthChange(int change)

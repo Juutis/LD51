@@ -52,14 +52,35 @@ public class UITimelineBar : MonoBehaviour
         ClearAllPlayerCards();
     }
 
+    public void AnimateCurrentStep(RectTransform playerPosition, RectTransform enemyPosition)
+    {
+        Debug.Log("AnimateCurrent");
+        UITimelineAction playerAction = GetCurrentAction(playerCards);
+        UITimelineAction enemyAction = GetCurrentAction(enemyCards);
+
+        if (playerAction)
+        {
+            playerAction.AnimatePerform(playerPosition.position, delegate
+            {
+                CharacterAnimationManager.main.PlayAnimations(playerAction, enemyAction);
+            });
+        }
+        if (enemyAction)
+        {
+            enemyAction.AnimatePerform(enemyPosition.position);
+        }
+
+    }
+
     public void NextStep()
     {
         timelinePosition += 1;
         if (timelinePosition >= timelineMaxIndex)
         {
-            timelinePosition = -1;
             Clear();
             UICardManager.main.PreviousRoundFinished = true;
+            timelinePosition = -1;
+            UIManager.main.DrawHand();
         }
         timelineMarker.Move(timelinePosition);
         UnhighlightActionsAndCards(playerCards);
@@ -75,6 +96,25 @@ public class UITimelineBar : MonoBehaviour
                 numbers[index].Unhighlight();
             }
         }
+    }
+
+    private UITimelineAction GetCurrentAction(List<UITimelineCard> cards)
+    {
+        UITimelineAction action = null;
+        int currentActionIndex = timelinePosition + 1;
+        int actionPosition = 0;
+        foreach (UITimelineCard card in cards)
+        {
+            for (int actionIndex = 0; actionIndex < card.Actions.Count; actionIndex += 1)
+            {
+                if (actionPosition == currentActionIndex)
+                {
+                    return card.Actions[actionIndex];
+                }
+                actionPosition += 1;
+            }
+        }
+        return action;
     }
 
     private void UnhighlightActionsAndCards(List<UITimelineCard> cards)
@@ -118,8 +158,20 @@ public class UITimelineBar : MonoBehaviour
         playerCards.Add(card);
         return card;
     }
+
+    public UITimelineCard GetLastPlayerCard()
+    {
+        return playerCards[playerCards.Count - 1];
+    }
+
+    public UITimelineCard GetLastEnemyCard()
+    {
+        return enemyCards[enemyCards.Count - 1];
+    }
+
     private UITimelineCard CreateCard(Transform container, UICardData cardData)
     {
+        Debug.Log("Create timeline card");
         UITimelineCard card = Instantiate(cardPrefab, Vector2.zero, Quaternion.identity, container);
         card.Initialize(cardData);
         return card;

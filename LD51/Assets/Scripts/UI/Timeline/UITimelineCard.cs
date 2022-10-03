@@ -25,7 +25,6 @@ public class UITimelineCard : MonoBehaviour
 
     public void Initialize(UICardData data)
     {
-        // Debug.Log(data.Actions);
         RectTransform rect = GetComponent<RectTransform>();
         imgCostBg.color = data.CostColor;
         rect.sizeDelta = new Vector2(data.Actions.Count * singleActionWidth, height);

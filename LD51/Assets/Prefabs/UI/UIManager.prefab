@@ -53,6 +53,7 @@ MonoBehaviour:
   poppingTextPrefab: {fileID: 1519880636667740110, guid: c0c08296d5078d94bbab0343ce36e104,
     type: 3}
   uiClock: {fileID: 8994706860963743924}
+  skipRoundButton: {fileID: 549121035613432710}
   poppingTextContainer: {fileID: 55437372126505316}
   playerPoppingTextPosition: {fileID: 8128152489867531340}
   enemyPoppingTextPosition: {fileID: 7524779958392433268}
@@ -1734,6 +1735,18 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a02f6cdf8fc01a46b7896aab35b2fcc, type: 3}
+--- !u!114 &549121035613432710 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2036365395457343630, guid: 8a02f6cdf8fc01a46b7896aab35b2fcc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2007551163608394504}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf1cfd5f4a47e8479477c8c8a11e6ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8590065935087093958 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7848167013024277454, guid: 8a02f6cdf8fc01a46b7896aab35b2fcc,

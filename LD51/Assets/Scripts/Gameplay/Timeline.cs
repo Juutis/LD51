@@ -60,7 +60,7 @@ public class Timeline
                     CardAction stunAction = new() { ActionAmount = 1, ActionType = CardActionType.Stunned };
                     if (actions.Count <= currentStep + 1)
                     {
-                        Card stunCard = new() { Actions = new() { stunAction } };
+                        Card stunCard = new(-1) { Actions = new() { stunAction } };
                         actions.Add(stunAction);
                         cards.Add(stunCard);
                         if (timelineType == TimelineType.Enemy)

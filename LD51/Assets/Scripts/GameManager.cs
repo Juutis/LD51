@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Play cards");
             Card card = playerDeck.PlayCard(cardIndex);
-
+            Debug.Log($"Card {card.Actions.Count}");
             playerTimeline.AddCard(card);
             return card;
         }
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Play cards");
             int actionsLeft = GetPlayerRemainingTime();
-            Card card = new Card();
+            Card card = new Card(-1);
 
             for (int i = 0; i < actionsLeft; i++)
             {
@@ -78,14 +78,12 @@ public class GameManager : MonoBehaviour
     {
         if (enemyTimeline.GetCurrentAction() == null)
         {
-            // ai code needed
-            int index = 0;
+            int remainingTime = enemyTimeline.GetRemainingTime();
+            Card card = enemyDeck.PlaySkip(remainingTime);
 
-            Card card = enemyDeck.PlaySkip(enemyTimeline.GetRemainingTime());
-
-            if (enemyDeck.HasPlayableCard(enemyTimeline.GetRemainingTime()))
+            if (enemyDeck.HasPlayableCard(remainingTime))
             {
-                card = enemyDeck.PlayCard(index);
+                card = enemyDeck.PlayCardMaxLength(remainingTime);
             }
 
             enemyTimeline.AddCard(card);

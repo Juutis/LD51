@@ -31,7 +31,7 @@ public class Deck : MonoBehaviour
         currentDeck = new Queue<Card>(
             deck
                 .OrderBy(x => Random.Range(0, deck.Count))
-                .Select(x => new Card(x.Card))
+                .Select((x, index) => new Card(x.Card, -1))
         );
 
         return currentDeck;
@@ -42,21 +42,31 @@ public class Deck : MonoBehaviour
         hand.Clear();
         for (int i = 0; i < handSize; i++)
         {
-            hand.Add(currentDeck.Dequeue());
+            Card card = currentDeck.Dequeue();
+            card.Index = i;
+            hand.Add(card);
         }
     }
 
-    public Card PlayCard(int index)
+    public Card PlayCard(int cardId)
     {
-        int i = Mathf.Clamp(index, 0, hand.Count - 1);
-        Card card = hand[i];
-        hand.RemoveAt(i);
+        //int i = Mathf.Clamp(index, 0, hand.Count - 1);
+        //Card card = hand[i];
+        //hand.RemoveAt(i);
+        Card foundCard = hand.ToList().FirstOrDefault(card => card.Index == cardId);
+        return foundCard;
+    }
+
+    public Card PlayCardMaxLength(int maxLength)
+    {
+        Card card = hand.ToList().FirstOrDefault(card => card.Actions.Count <= maxLength);
         return card;
     }
 
+
     public Card PlaySkip(int skipAmount)
     {
-        Card skipCard = new Card();
+        Card skipCard = new Card(-1);
         for (int i = 0; i < skipAmount; i++)
         {
             skipCard.Actions.Add(new CardAction { ActionType = CardActionType.Wait, ActionAmount = 1 });

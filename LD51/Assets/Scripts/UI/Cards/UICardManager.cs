@@ -80,11 +80,24 @@ public class UICardManager : MonoBehaviour
                 pendingHand = null;
             }
         }
-
-        int timeLeft = GameManager.main.GetPlayerRemainingTime();
-        cards.Where(x => x.Cost > timeLeft).ToList().ForEach(x => x.SetInactive());
     }
 
+    public void SetUnplayableCardsInactive()
+    {
+        int timeLeft = GameManager.main.GetPlayerRemainingTime();
+        cards.Where(card => card.Cost > timeLeft).ToList().ForEach(x => x.SetInactive());
+    }
+
+    public void SetHandInactive()
+    {
+        cards.ForEach(card => card.SetInactive());
+    }
+
+    public void SetPlayableCardsActive()
+    {
+        int timeLeft = GameManager.main.GetPlayerRemainingTime();
+        cards.Where(card => card.Cost <= timeLeft).ToList().ForEach(x => x.SetActiveAgain());
+    }
 
     public UICardData ConvertCardData(Card card, int index)
     {

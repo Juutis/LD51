@@ -88,6 +88,11 @@ public class UITimelineAction : MonoBehaviour
         container.GetComponentsInChildren<Image>().ToList().ForEach(text => text.material = grayScaleMaterial);
         isHighlighted = false;
     }
+
+    public void SetImage(Sprite img)
+    {
+        imgIcon.sprite = img;
+    }
 }
 
 

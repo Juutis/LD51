@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
         }
         PlayEnemyCard();
-        PlayAction(card.Actions.Count);
+        PlayAction();
     }
     public void DrawHand()
     {
@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void PlayAction(int actionsLeft)
+    public void PlayAction()
     {
         UITimelineBar.main.AnimateCurrentStep(
             playerActionPosition,
@@ -93,20 +93,19 @@ public class UIManager : MonoBehaviour
         );
         UIManager.main.AnimateClockRound(delegate
         {
-            actionsLeft -= 1;
+            // actionsLeft -= 1;
             GameManager.main.ProcessResolveAction();
             GameManager.main.ProcessResetTurnEffects();
             PlayEnemyCard();
-            Debug.Log("ACtions: " + actionsLeft);
-
             UITimelineBar.main.NextStep();
-            if (actionsLeft <= 0)
+            Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
+            if (GameManager.main.GetPlayerRemainingActions() <= 0)
             {
                 UICardManager.main.CanPlayCard = true;
             }
             else
             {
-                PlayAction(actionsLeft);
+                PlayAction();
             }
         });
     }

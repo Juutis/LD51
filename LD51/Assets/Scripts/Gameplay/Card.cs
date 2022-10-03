@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Search;
 using UnityEngine;
 
@@ -10,10 +11,13 @@ public class Card
     public List<CardAction> Actions;
     public Sprite CardArt;
 
-    public Card() { }
+    public Card()
+    {
+        Actions = new List<CardAction>();
+    }
     public Card(Card card)
     {
-        Actions = new(card.Actions);
+        Actions = new(card.Actions.Select(x => x.Clone()));
         CardArt = card.CardArt;
     }
 }
@@ -23,6 +27,11 @@ public class CardAction
 {
     public CardActionType ActionType;
     public int ActionAmount; // heal, damage or rewind steps
+
+    public CardAction Clone()
+    {
+        return new CardAction { ActionAmount = ActionAmount, ActionType = ActionType };
+    }
 }
 
 public enum CardActionType

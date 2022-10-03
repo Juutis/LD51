@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,15 @@ public class GameManager : MonoBehaviour
 
     public Deck PlayerDeck { get { return playerDeck; } }
 
+    public int GetPlayerRemainingActions()
+    {
+        return playerTimeline.GetRemainingActions();
+    }
+
+    public int GetPlayerRemainingTime()
+    {
+        return playerTimeline.GetRemainingTime();
+    }
 
     public Card PlayCard(int cardIndex)
     {
@@ -46,13 +56,37 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
+    public void SkipRound()
+    {
+        if (playerTimeline.GetCurrentAction() == null)
+        {
+            Debug.Log("Play cards");
+            int actionsLeft = GetPlayerRemainingTime();
+            Card card = new Card();
+
+            for (int i = 0; i < actionsLeft; i++)
+            {
+                card.Actions.Add(new CardAction { ActionAmount = 1, ActionType = CardActionType.Wait });
+            }
+
+            playerTimeline.AddCard(card);
+            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, -1));
+        }
+    }
+
     public Card PlayEnemyCard()
     {
         if (enemyTimeline.GetCurrentAction() == null)
         {
             // ai code needed
             int index = 0;
-            Card card = enemyDeck.PlayCard(index);
+
+            Card card = enemyDeck.PlaySkip(enemyTimeline.GetRemainingTime());
+
+            if (enemyDeck.HasPlayableCard(enemyTimeline.GetRemainingTime()))
+            {
+                card = enemyDeck.PlayCard(index);
+            }
 
             enemyTimeline.AddCard(card);
             return card;

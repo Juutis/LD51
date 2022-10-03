@@ -30,9 +30,18 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     [SerializeField]
     private Image imgCardCostBg;
 
+    [SerializeField]
+    private Material grayscaleMaterial;
+
     private List<UITimelineAction> actions = new();
 
+    [SerializeField]
+    private List<Image> grayScaledImages;
+
+    private bool inactive = false;
+
     public int Index { get { return data.Index; } }
+    public int Cost { get { return data.Actions.Count; } }
 
     public void Initialize(UICardData data)
     {
@@ -51,7 +60,7 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void Highlight()
     {
-        if (!isHovered && UICardManager.main.CanPlayCard)
+        if (!isHovered && UICardManager.main.CanPlayCard && !inactive)
         {
             isHovered = true;
             canvas.sortingOrder = highlightSortingOrder;
@@ -61,7 +70,7 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void Unhighlight()
     {
-        if (isHovered)
+        if (isHovered && !inactive)
         {
             isHovered = false;
             canvas.sortingOrder = originalSortingOrder;
@@ -71,7 +80,7 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     public void Select()
     {
-        if (UICardManager.main.CanPlayCard)
+        if (UICardManager.main.CanPlayCard && !inactive)
         {
             UICardManager.main.PlayCard(data);
         }
@@ -90,6 +99,12 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public void OnPointerClick(PointerEventData eventData)
     {
         Select();
+    }
+
+    public void SetInactive()
+    {
+        inactive = true;
+        grayScaledImages.ForEach(x => x.material = grayscaleMaterial);
     }
 }
 

@@ -42,6 +42,16 @@ public class UICardManager : MonoBehaviour
     private bool previousRoundFinished = true;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
 
+    public void SkipRound()
+    {
+        if (canPlayCard)
+        {
+            GameManager.main.SkipRound();
+            GameManager.main.ResolveAction();
+            UIManager.main.PlayAction();
+        }
+    }
+
     public void PlayCard(UICardData card)
     {
         if (canPlayCard)
@@ -62,12 +72,17 @@ public class UICardManager : MonoBehaviour
         {
             if (previousRoundFinished)
             {
+                cards.ForEach(x => Destroy(x.gameObject));
+                cards.Clear();
                 previousRoundFinished = false;
                 int index = 0;
                 pendingHand.ForEach(card => CreateUICard(ConvertCardData(card, index++)));
                 pendingHand = null;
             }
         }
+
+        int timeLeft = GameManager.main.GetPlayerRemainingTime();
+        cards.Where(x => x.Cost > timeLeft).ToList().ForEach(x => x.SetInactive());
     }
 
 
@@ -102,6 +117,11 @@ public class UICardManager : MonoBehaviour
             cards.Remove(card);
             Destroy(card.gameObject);
         }
+    }
+
+    public ActionIcon GetActionIcon(CardActionType type)
+    {
+        return actionIcons.FirstOrDefault(x => x.Type == type);
     }
 }
 

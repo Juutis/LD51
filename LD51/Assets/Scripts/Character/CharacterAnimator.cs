@@ -27,7 +27,13 @@ public class CharacterAnimator : MonoBehaviour
     public void Animate(CardActionType selfAction, CardActionType otherAction) {
         var animation = "idle";
         if (selfAction == CardActionType.Attack) {
-            animation = "slash";
+            if (otherAction == CardActionType.Defend) {
+                animation = "slash_block";
+            } else if (otherAction == CardActionType.Parry) {
+                animation = "slash_parry";
+            } else {
+                animation = "slash";
+            }
         } else if (selfAction == CardActionType.Heal) {
             animation = "swig";
         } else if (selfAction == CardActionType.Defend) {

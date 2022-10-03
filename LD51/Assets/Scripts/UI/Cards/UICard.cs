@@ -85,6 +85,7 @@ public class UICard : MonoBehaviour
         if (UICardManager.main.CanPlayCard && !inactive)
         {
             UICardManager.main.PlayCard(data);
+            UITooltip.main.Hide();
         }
     }
 

@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         return null;
     }
 
-    public void SkipRound()
+    public Card SkipRound()
     {
         if (playerTimeline.GetCurrentAction() == null)
         {
@@ -83,10 +83,9 @@ public class GameManager : MonoBehaviour
             }
 
             playerTimeline.AddCard(card);
-            var uiCard = UICardManager.main.ConvertCardData(card, -1);
-            UITimelineBar.main.CreatePlayerCard(uiCard);
-            UIManager.main.PlayCard(uiCard);
+            return card;
         }
+        return null;
     }
 
     public Card PlayEnemyCard()

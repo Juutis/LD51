@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
         Invoke("NextRoundDelayed", 3f);
         Invoke("ShowEnemyHealth", 3f);
     }
-    
+
     public void SetPlayerCharacter(Character p)
     {
         player = p;
@@ -99,10 +99,8 @@ public class UIManager : MonoBehaviour
         }
         Debug.Log($"Playing card: {card.Index} -> {card.Actions.Count}");
         Card playerCard = GameManager.main.PlayCard(card.Index);
-        if (playerCard != null)
-        {
-            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
-        }
+        UITimelineBar.main.CreatePlayerCard(card);
+
         if (!enemyKilled && !playerWasKilled)
         {
             PlayEnemyCard(delegate
@@ -124,6 +122,7 @@ public class UIManager : MonoBehaviour
         UITimelineBar.main.ResetMarker();
         GameManager.main.ProcessShuffle();
         UICardManager.main.DestroyCopyCard();
+        UICardManager.main.CanPlayCard = true;
         //skipRoundButton.SetActiveAgain();
     }
 
@@ -163,10 +162,11 @@ public class UIManager : MonoBehaviour
     {
         UICardManager.main.AnimateEnemyCard(enemyCard, callback);
     }
-    
+
     public void EnemyWasKilled()
     {
         Debug.Log("Enemy was killed!");
+        UICardManager.main.SetHandInactive();
         enemyKilled = true;
     }
 
@@ -176,12 +176,14 @@ public class UIManager : MonoBehaviour
         UICardManager.main.CanPlayCard = false;
         Debug.Log("Player was killed!");
         playerWasKilled = true;
+        Time.timeScale = 0f;
         YouDied.SetActive(true);
     }
 
 
     public void Win()
     {
+        Time.timeScale = 0f;
         YouWin.SetActive(true);
     }
     public void PlayAction()
@@ -214,7 +216,7 @@ public class UIManager : MonoBehaviour
     {
         UITimelineBar.main.NextStep();
         Debug.Log($"Remaining actions {GameManager.main.GetPlayerRemainingActions()}");
-        if (GameManager.main.GetPlayerRemainingActions() <= 0)
+        if (!enemyKilled && GameManager.main.GetPlayerRemainingActions() <= 0)
         {
             UICardManager.main.DestroyCopyCard();
             UICardManager.main.CanPlayCard = true;
@@ -276,7 +278,7 @@ public class UIManager : MonoBehaviour
     {
         int totalHPChange = 0;
         List<CardEffectInContext> handledCards = new();
-        TimelineType damageType = type == TimelineType.Player ? TimelineType.Enemy : TimelineType.Player; 
+        TimelineType damageType = type == TimelineType.Player ? TimelineType.Enemy : TimelineType.Player;
 
         foreach (CardEffectInContext effectContext in effects)
         {

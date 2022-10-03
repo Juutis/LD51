@@ -703,12 +703,12 @@ PrefabInstance:
     - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: HP
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530131, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}
       propertyPath: MaxHP
-      value: 30
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 8341953893578530140, guid: 2c340b7315745d642ad6089c224b778c,
         type: 3}

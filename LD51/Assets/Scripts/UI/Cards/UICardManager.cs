@@ -37,6 +37,7 @@ public class UICardManager : MonoBehaviour
 
     private List<UICardData> cardDatas = new();
     private List<UICard> cards = new();
+    private List<UICard> skipCards = new();
 
     private List<Card> pendingHand;
     private bool canPlayCard = true;
@@ -57,6 +58,8 @@ public class UICardManager : MonoBehaviour
     private Transform enemyCardTarget;
     [SerializeField]
     private Transform enemyCardOriginalPos;
+    [SerializeField]
+    private Transform playerSkipCardOriginalPos;
     private Vector3 originalPosition;
     private Vector3 targetPosition;
 
@@ -67,9 +70,9 @@ public class UICardManager : MonoBehaviour
     {
         if (canPlayCard)
         {
-            GameManager.main.SkipRound();
-            GameManager.main.ResolveAction();
-            UIManager.main.PlayAction();
+            Card skipCard = GameManager.main.SkipRound();
+            var uiCard = UICardManager.main.ConvertCardData(skipCard, -1);
+            PlayCard(uiCard);
         }
     }
 
@@ -118,7 +121,14 @@ public class UICardManager : MonoBehaviour
         isAnimating = true;
         animateTimer = 0f;
         UICard card = FindCard(nextCard.Index);
-        copyCard = Instantiate(card, card.transform.position, Quaternion.identity, currentCardContainer);
+        if (card != null)
+        {
+            copyCard = Instantiate(card, card.transform.position, Quaternion.identity, currentCardContainer);
+        }
+        else
+        {
+            copyCard = Instantiate(uiCardPrefab, playerSkipCardOriginalPos.position, Quaternion.identity, currentCardContainer);
+        }
         copyCard.SetInactiveButNotGrayscale();
         targetScale = new Vector3(0.5f, 0.5f, 1f);
         targetPosition = playerCardTarget.position;

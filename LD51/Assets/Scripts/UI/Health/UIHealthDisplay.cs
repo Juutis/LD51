@@ -27,9 +27,13 @@ public class UIHealthDisplay : MonoBehaviour
     [SerializeField]
     private bool showMaxValue = false;
 
+    public bool StartHidden = true;
+
     void Start()
     {
-        container.SetActive(false);
+        if (StartHidden) {
+            container.SetActive(false);
+        }
     }
 
     public void Hide()

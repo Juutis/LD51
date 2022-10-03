@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
             UICardManager.main.RemoveCard(card.Index);
             UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(playerCard, card.Index));
         }
-        if (!enemyKilled)
+        if (!enemyKilled && !playerKilled)
         {
             PlayEnemyCard();
         }
@@ -123,10 +123,23 @@ public class UIManager : MonoBehaviour
     }
 
     bool enemyKilled = false;
+    bool playerKilled = false;
+    public GameObject YouDied, YouWin;
     public void EnemyWasKilled()
     {
         Debug.Log("Enemy was killed!");
         enemyKilled = true;
+    }
+
+    public void PlayerWasKilled()
+    {
+        Debug.Log("Player was killed!");
+        playerKilled = true;
+        YouDied.SetActive(true);
+    }
+
+    public void Win() {
+        YouWin.SetActive(true);
     }
 
     public void PlayAction()
@@ -138,7 +151,7 @@ public class UIManager : MonoBehaviour
             {
                 // actionsLeft -= 1;
                 Debug.Log("Playing enemy card");
-                if (!enemyKilled && GameManager.main.GetPlayerRemainingActions() > 0)
+                if (!enemyKilled && GameManager.main.GetPlayerRemainingActions() > 0 && !playerKilled)
                 {
                     PlayEnemyCard();
                 }
@@ -152,7 +165,7 @@ public class UIManager : MonoBehaviour
                 }
                 else
                 {
-                    if (!enemyKilled)
+                    if (!enemyKilled && !playerKilled)
                     {
                         PlayAction();
                     }

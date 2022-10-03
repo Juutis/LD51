@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
         if (currentEnemy >= enemies.Count)
         {
             Debug.Log("YOU WIN");
+            UIManager.main.Win();
             return null;
         }
         enemyActionResolver = enemies[currentEnemy];
@@ -251,7 +252,8 @@ public class GameManager : MonoBehaviour
                 {
                     // Do stuff
                     Debug.Log("Player killed");
-                    //currentGameState = GameState.PlayerDead;
+                    currentGameState = GameState.PlayerDead;
+                    UIManager.main.PlayerWasKilled();
                     break;
                 }
             }

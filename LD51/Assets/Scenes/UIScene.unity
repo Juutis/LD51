@@ -771,6 +771,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5959e8f5124051f4e824f6c4aeff18b4,
         type: 2}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[2].count
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8957089550297484676, guid: 2c340b7315745d642ad6089c224b778c,
+        type: 3}
+      propertyPath: deck.Array.data[8].count
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c340b7315745d642ad6089c224b778c, type: 3}

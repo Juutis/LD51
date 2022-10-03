@@ -65,10 +65,7 @@ public class CharacterAnimationManager : MonoBehaviour
         {
             playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterAnimator>();
         }
-        if (enemyAnimator == null)
-        {
-            enemyAnimator = GameObject.FindGameObjectWithTag("Enemy").GetComponent<CharacterAnimator>();
-        }
+        enemyAnimator = GameManager.main.Enemy.GetComponent<CharacterAnimator>();
     }
 
     public void PlayAnimations(UITimelineAction playerAction, UITimelineAction enemyAction)

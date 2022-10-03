@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private Transform enemySpawn;
     [SerializeField]
     private GameObject enemyPrefab;
-    public GameObject enemy;
+    public GameObject Enemy;
     private Transform worldRotator;
 
     public void Start() {
@@ -161,8 +161,8 @@ public class GameManager : MonoBehaviour
         // heal player a bit
         //currentGameState = GameState.ShuffleHand;
 
-        enemy = Instantiate(enemyPrefab, worldRotator);
-        enemy.transform.position = enemySpawn.position;
+        Enemy = Instantiate(enemyPrefab, worldRotator);
+        Enemy.transform.position = enemySpawn.position;
     }
 
     public void ProcessShuffle()

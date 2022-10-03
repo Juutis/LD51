@@ -49,7 +49,6 @@ public class UIManager : MonoBehaviour
     private Character currentEnemy;
     private Character player;
 
-    bool enemyKilled = false;
     bool playerKilled = false;
     public GameObject YouDied, YouWin;
     bool playerWasKilled = false;

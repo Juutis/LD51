@@ -13,6 +13,9 @@ public class CharacterAnimationManager : MonoBehaviour
 
     private CameraRotator camRot;
 
+    private Transform enemyArea;
+    private float enemyTriggerDistance = 0.5f;
+
     private void Awake()
     {
         main = this;
@@ -20,6 +23,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
     void Start() {
         camRot = GameObject.FindGameObjectWithTag("Environment Rotator").GetComponent<CameraRotator>();
+        enemyArea = GameObject.FindGameObjectWithTag("EnemyArea").transform;
     }
 
     private CharacterAnimator playerAnimator;
@@ -37,6 +41,16 @@ public class CharacterAnimationManager : MonoBehaviour
         if (TriggerEnemyDead) {
             PlayEnemyDead();
             TriggerEnemyDead = false;
+        }
+
+        if (walking) {
+            var targetPos = enemyArea.position;
+            targetPos.y = 0.0f;
+            var enemyPos = enemyAnimator.transform.position;
+            enemyPos.y = 0.0f;
+            if (Vector3.Distance(targetPos, enemyPos) < enemyTriggerDistance) {
+                StopWalk();
+            }
         }
     }
 
@@ -69,17 +83,18 @@ public class CharacterAnimationManager : MonoBehaviour
         enemyAnimator.Die();
     }
 
-    private float walkDuration = 2.5f;
+    private bool walking = false;
 
     public void WalkToNextEnemy() {
         FetchAnimators();
         playerAnimator.Run();
-        Invoke("StopWalk", walkDuration);
+        walking = true;
         camRot.Play();
     }
 
     public void StopWalk() {
         playerAnimator.Idle();
         camRot.Stop();
+        walking = false;
     }
 }

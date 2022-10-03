@@ -69,7 +69,10 @@ public class CharacterAnimationManager : MonoBehaviour
         {
             playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterAnimator>();
         }
-        enemyAnimator = GameManager.main.Enemy.GetComponent<CharacterAnimator>();
+        var enemy = GameManager.main.Enemy;
+        if (enemy != null) {
+            enemyAnimator = enemy.GetComponent<CharacterAnimator>();
+        }
     }
 
     private float animationLength = 1f;
@@ -118,8 +121,20 @@ public class CharacterAnimationManager : MonoBehaviour
 
     public void StopWalk()
     {
-        playerAnimator.Idle();
+        playerAnimator.Idle(true);
         camRot.Stop();
         walking = false;
+    }
+
+    public void PlayerIdle()
+    {
+        FetchAnimators();
+        playerAnimator.Idle();
+    }
+
+    public void EnemyIdle()
+    {
+        FetchAnimators();
+        enemyAnimator.Idle();
     }
 }

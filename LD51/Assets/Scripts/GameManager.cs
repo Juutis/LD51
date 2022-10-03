@@ -27,8 +27,8 @@ public class GameManager : MonoBehaviour
     private Deck playerDeck;
     private Deck enemyDeck;
 
-    private Timeline playerTimeline;
-    private Timeline enemyTimeline;
+    public Timeline playerTimeline;
+    public Timeline enemyTimeline;
 
     public Deck PlayerDeck { get { return playerDeck; } }
 

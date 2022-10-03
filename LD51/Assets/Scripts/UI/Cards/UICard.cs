@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UICard : MonoBehaviour
 {
     private bool isHovered = false;
     [SerializeField]
@@ -40,6 +39,9 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
     private bool inactive = false;
 
+    [SerializeField]
+    private UICardHoverHelper hoverHelper;
+
     public int Index { get { return data.Index; } }
     public int Cost { get { return data.Actions.Count; } }
 
@@ -49,8 +51,8 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         txtCardCost.text = $"{data.Actions.Count}";
         imgCardCostBg.color = data.CostColor;
         data.Actions.ForEach(action => CreateAction(action));
+        hoverHelper.Initialize(this);
     }
-
     private void CreateAction(UICardActionData data)
     {
         UITimelineAction action = Instantiate(actionPrefab, Vector3.zero, Quaternion.identity, actionContainer);
@@ -86,36 +88,24 @@ public class UICard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         }
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        Highlight();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        Unhighlight();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Select();
-    }
-
     public void SetInactiveButNotGrayscale()
     {
         inactive = true;
+        hoverHelper.enabled = false;
     }
 
     public void SetInactive()
     {
         inactive = true;
         grayScaledImages.ForEach(x => x.material = grayscaleMaterial);
+        hoverHelper.enabled = false;
     }
 
     public void SetActiveAgain()
     {
         inactive = false;
         grayScaledImages.ForEach(x => x.material = null);
+        hoverHelper.enabled = true;
     }
 }
 

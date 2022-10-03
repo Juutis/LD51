@@ -16,7 +16,13 @@ MonoBehaviour:
     Actions:
     - ActionType: 2
       ActionAmount: 1
-    - ActionType: 0
+    - ActionType: 2
+      ActionAmount: 1
+    - ActionType: 2
+      ActionAmount: 1
+    - ActionType: 2
+      ActionAmount: 1
+    - ActionType: 1
       ActionAmount: 1
     CardArt: {fileID: 0}
     Index: 0

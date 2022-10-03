@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
         Invoke("NewEnemy", basicUIBreakDuration);
         Invoke("DrawHand", basicUIBreakDuration * 2);
         skipRoundButton.SetInactive();
@@ -73,6 +72,7 @@ public class UIManager : MonoBehaviour
     public void SetPlayerCharacter(Character p)
     {
         player = p;
+        playerHealthDisplay.Initialize(player.Health, player.MaxHealth);
     }
 
     public void NextRoundDelayed()
@@ -175,16 +175,26 @@ public class UIManager : MonoBehaviour
         UICardManager.main.CanPlayCard = false;
         Debug.Log("Player was killed!");
         playerWasKilled = true;
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        Invoke("ShowLoseScreen", 2.0f);
+    }
+
+    public void ShowLoseScreen() {
         YouDied.SetActive(true);
+    }
+
+    public void ShowWinScreen() {
+        YouWin.SetActive(true);
     }
 
 
     public void Win()
     {
-        Time.timeScale = 0f;
-        YouWin.SetActive(true);
+        //Time.timeScale = 0f;
+        Invoke("ShowWinScreen", 2.0f);
     }
+
+
     public void PlayAction()
     {
         if (playerWasKilled)

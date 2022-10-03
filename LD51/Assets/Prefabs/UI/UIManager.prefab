@@ -2607,6 +2607,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5215607485732208194, guid: 26a15d6794260ad4eb59355b85b3ce45,
         type: 3}
+      propertyPath: StartHidden
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5215607485732208194, guid: 26a15d6794260ad4eb59355b85b3ce45,
+        type: 3}
       propertyPath: showMaxValue
       value: 1
       objectReference: {fileID: 0}

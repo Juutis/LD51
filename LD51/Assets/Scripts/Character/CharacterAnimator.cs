@@ -29,6 +29,7 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Animate(CardActionType selfAction, CardActionType otherAction)
     {
+        if (dead) return;
         var animation = "idle";
         if (selfAction == CardActionType.Attack)
         {
@@ -70,11 +71,13 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Pause()
     {
+        if (dead) return;
         anim.speed = 0.0f;
     }
 
     public void Resume()
     {
+        if (dead) return;
         anim.speed = 1.0f;
     }
 
@@ -82,17 +85,23 @@ public class CharacterAnimator : MonoBehaviour
 
     public void Die()
     {
+        if (dead) return;
         var animation = dieAnimations[Random.Range(0, dieAnimations.Length)];
         anim.Play(animation);
+        dead = true;
     }
+
+    private bool dead = false;
 
     public void Run()
     {
+        if (dead) return;
         anim.Play("run");
     }
 
     public void Idle(bool force = false)
     {
+        if (dead) return;
         if (!force && (isAnimationPlaying("idle") || isAnimationPlaying("run")))
         {
             return;

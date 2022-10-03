@@ -99,7 +99,14 @@ public class Timeline
                 }
             }
             CardEffectInContext effect = new CardEffectInContext();
-            effect.Effect = fromTargetEffect;
+            if (fromTargetEffect != CardEffect.None)
+            {
+                effect.Effect = fromTargetEffect;
+            }
+            else
+            {
+                effect.Effect = fromSelfEffect;
+            }
             effect.Type = Type;
             effect.Amount = action.ActionAmount;
             return effect;

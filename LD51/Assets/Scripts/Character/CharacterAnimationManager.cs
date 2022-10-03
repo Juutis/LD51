@@ -18,23 +18,28 @@ public class CharacterAnimationManager : MonoBehaviour
         main = this;
     }
 
-    void Start() {
+    void Start()
+    {
         camRot = GameObject.FindGameObjectWithTag("Environment Rotator").GetComponent<CameraRotator>();
     }
 
     private CharacterAnimator playerAnimator;
     private CharacterAnimator enemyAnimator;
 
-    void Update() {
-        if (TriggerWalk) {
+    void Update()
+    {
+        if (TriggerWalk)
+        {
             WalkToNextEnemy();
             TriggerWalk = false;
         }
-        if (TriggerPlayerDead) {
+        if (TriggerPlayerDead)
+        {
             PlayPlayerDead();
             TriggerPlayerDead = false;
         }
-        if (TriggerEnemyDead) {
+        if (TriggerEnemyDead)
+        {
             PlayEnemyDead();
             TriggerEnemyDead = false;
         }
@@ -52,33 +57,37 @@ public class CharacterAnimationManager : MonoBehaviour
         }
     }
 
-    public void PlayAnimations(CardAction playerAction, CardAction enemyAction)
+    public void PlayAnimations(UITimelineAction playerAction, UITimelineAction enemyAction)
     {
         FetchAnimators();
-        playerAnimator.Animate(playerAction.ActionType, enemyAction.ActionType);
-        enemyAnimator.Animate(enemyAction.ActionType, playerAction.ActionType);
+        playerAnimator.Animate(playerAction.Data.Type, enemyAction.Data.Type);
+        enemyAnimator.Animate(enemyAction.Data.Type, playerAction.Data.Type);
     }
 
-    public void PlayPlayerDead() {
+    public void PlayPlayerDead()
+    {
         FetchAnimators();
         playerAnimator.Die();
     }
 
-    public void PlayEnemyDead() {
+    public void PlayEnemyDead()
+    {
         FetchAnimators();
         enemyAnimator.Die();
     }
 
     private float walkDuration = 2.5f;
 
-    public void WalkToNextEnemy() {
+    public void WalkToNextEnemy()
+    {
         FetchAnimators();
         playerAnimator.Run();
         Invoke("StopWalk", walkDuration);
         camRot.Play();
     }
 
-    public void StopWalk() {
+    public void StopWalk()
+    {
         playerAnimator.Idle();
         camRot.Stop();
     }

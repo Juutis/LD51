@@ -37,6 +37,14 @@ public class Timeline
 
     public CardEffectInContext ResolveActions(CardActionType type)
     {
+        CardEffectInContext noneEffect = new CardEffectInContext();
+        noneEffect.Effect = CardEffect.None;
+        noneEffect.Type = Type;
+        noneEffect.Amount = 0;
+        if (currentStep >= actions.Count)
+        {
+            return noneEffect;
+        }
         CardAction action = actions[currentStep];
         if (action.ActionType == type)
         {
@@ -79,16 +87,15 @@ public class Timeline
             effect.Amount = action.ActionAmount;
             return effect;
         }
-
-        CardEffectInContext noneEffect = new CardEffectInContext();
-        noneEffect.Effect = CardEffect.None;
-        noneEffect.Type = Type;
-        noneEffect.Amount = 0;
         return noneEffect;
     }
 
     public bool SkipForward()
     {
+        if (currentStep >= actions.Count)
+        {
+            return false;
+        }
         CardAction action = actions[currentStep];
         if (action.ActionType == CardActionType.SkipForward)
         {

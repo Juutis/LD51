@@ -9,6 +9,8 @@ public class UIHealthDisplay : MonoBehaviour
     private Text txtValue;
     [SerializeField]
     private Image imgValue;
+    [SerializeField]
+    private GameObject container;
 
     private int currentValue;
     private int targetValue;
@@ -25,8 +27,14 @@ public class UIHealthDisplay : MonoBehaviour
     [SerializeField]
     private bool showMaxValue = false;
 
+    void Start()
+    {
+        container.SetActive(false);
+    }
+
     public void Initialize(int value, int max)
     {
+        container.SetActive(true);
         currentValue = value;
         targetValue = value;
         maxValue = max;

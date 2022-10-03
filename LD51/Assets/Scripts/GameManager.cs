@@ -32,20 +32,21 @@ public class GameManager : MonoBehaviour
     public Deck PlayerDeck { get { return playerDeck; } }
 
 
-    public void PlayCard(int cardIndex)
+    public Card PlayCard(int cardIndex)
     {
+        Debug.Log($"Playing card {cardIndex}");
         if (playerTimeline.GetCurrentAction() == null)
         {
             Debug.Log("Play cards");
             Card card = playerDeck.PlayCard(cardIndex);
 
             playerTimeline.AddCard(card);
-            UICardManager.main.RemoveCard(cardIndex);
-            UITimelineBar.main.CreatePlayerCard(UICardManager.main.ConvertCardData(card, cardIndex));
+            return card;
         }
+        return null;
     }
 
-    public void PlayEnemyCard()
+    public Card PlayEnemyCard()
     {
         if (enemyTimeline.GetCurrentAction() == null)
         {
@@ -54,16 +55,17 @@ public class GameManager : MonoBehaviour
             Card card = enemyDeck.PlayCard(index);
 
             enemyTimeline.AddCard(card);
-            UITimelineBar.main.CreateEnemyCard(UICardManager.main.ConvertCardData(card, index));
+            return card;
         }
+        return null;
     }
 
     public void ResolveAction()
     {
-        currentGameState = GameState.ResolveAction;
+        //currentGameState = GameState.ResolveAction;
     }
     // Update is called once per frame
-    void Update()
+    void NotUpdate()
     {
         if (currentGameState == GameState.NewEnemy)
         {
@@ -88,7 +90,7 @@ public class GameManager : MonoBehaviour
         else if (currentGameState == GameState.EnemyDead)
         {
             Debug.Log("enemy is dead, long live enemy");
-            currentGameState = GameState.NewEnemy;
+            //currentGameState = GameState.NewEnemy;
         }
         else if (currentGameState == GameState.PlayerDead)
         {
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ProcessNewEnemy()
+    public void ProcessNewEnemy()
     {
         Debug.Log("New enemy");
         currentEnemy++;
@@ -112,10 +114,10 @@ public class GameManager : MonoBehaviour
         playerTimeline.SetTargetResolver(enemyActionResolver);
         enemyDeck = enemyActionResolver.GetComponent<Deck>();
         // heal player a bit
-        currentGameState = GameState.ShuffleHand;
+        //currentGameState = GameState.ShuffleHand;
     }
 
-    private void ProcessShuffle()
+    public void ProcessShuffle()
     {
         if (playerDeck.GetCurrentDeck().Count == 0)
         {
@@ -131,27 +133,27 @@ public class GameManager : MonoBehaviour
         enemyDeck.DrawHand();
 
         Debug.Log(string.Join(",", playerDeck.GetHand().Select(x => "[" + string.Join(",", x.Actions.Select(y => y.ActionType.ToString())) + "]")));
-        currentGameState = GameState.PlayCard;
+        //currentGameState = GameState.PlayCard;
         playerTimeline.Reset();
         enemyTimeline.Reset();
     }
 
-    private void ProcessResetTurnEffects()
+    public void ProcessResetTurnEffects()
     {
         // TODO: Make something like GetLateActionEffects() to return a thing so something like parry can stun a character next round
         playerTimeline.ResetTurnEffects();
         enemyTimeline.ResetTurnEffects();
-        if (playerTimeline.GetRemainingTime() == 0)
+        /*if (playerTimeline.GetRemainingTime() == 0)
         {
             currentGameState = GameState.ShuffleHand;
         }
         else
         {
             currentGameState = GameState.PlayCard;
-        }
+        }*/
     }
 
-    private void ProcessResolveAction()
+    public void ProcessResolveAction()
     {
         // TODO: Make time forward (and backward?) skip return boolean so it can skip the turn immediately
         // TODO: UI handle skip
@@ -172,36 +174,36 @@ public class GameManager : MonoBehaviour
             {
                 CardEffectInContext playerEffect = playerTimeline.ResolveActions(type);
 
+                if (playerEffect != null)
+                {
+                    Debug.Log($"playerEffect  {playerEffect.Effect} {playerEffect.Amount}");
+                }
                 UIManager.main.AddEffect(playerEffect);
 
-                if (playerEffect.Effect == CardEffect.Killed)
+                if (playerEffect != null && playerEffect.Effect == CardEffect.Killed)
                 {
                     // Do stuff
                     Debug.Log("Enemy killed");
-                    currentGameState = GameState.EnemyDead;
+                    //urrentGameState = GameState.EnemyDead;
                     break;
                 }
 
                 CardEffectInContext enemyEffect = enemyTimeline.ResolveActions(type);
                 UIManager.main.AddEffect(enemyEffect);
 
-                if (enemyEffect.Effect == CardEffect.Killed)
+                if (enemyEffect != null && enemyEffect.Effect == CardEffect.Killed)
                 {
                     // Do stuff
                     Debug.Log("Player killed");
-                    currentGameState = GameState.PlayerDead;
+                    //currentGameState = GameState.PlayerDead;
                     break;
                 }
             }
 
-            CardAction playerAction = playerTimeline.GetCurrentAction();
-            CardAction enemyAction = enemyTimeline.GetCurrentAction();
-            CharacterAnimationManager.main.PlayAnimations(playerAction, enemyAction);
-
-            if (currentGameState == GameState.ResolveAction)
+            /*if (currentGameState == GameState.ResolveAction)
             {
                 currentGameState = GameState.ResetTurnEffects;
-            }
+            }*/
         }
     }
 }

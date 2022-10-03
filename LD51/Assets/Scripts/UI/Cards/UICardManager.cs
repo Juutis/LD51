@@ -37,7 +37,7 @@ public class UICardManager : MonoBehaviour
 
     private List<Card> pendingHand;
     private bool canPlayCard = true;
-    public bool CanPlayCard { get { return canPlayCard; } }
+    public bool CanPlayCard { get { return canPlayCard; } set { canPlayCard = value; } }
 
     private bool previousRoundFinished = true;
     public bool PreviousRoundFinished { set { previousRoundFinished = value; } }
@@ -47,28 +47,8 @@ public class UICardManager : MonoBehaviour
         if (canPlayCard)
         {
             canPlayCard = false;
-            GameManager.main.PlayCard(card.Index);
-            GameManager.main.ResolveAction();
-            PlayAction(card.Actions.Count);
+            UIManager.main.PlayCard(card);
         }
-    }
-
-    public void PlayAction(int actionsLeft)
-    {
-        UIManager.main.AnimateClockRound(delegate
-        {
-            actionsLeft -= 1;
-            UITimelineBar.main.NextStep();
-            if (actionsLeft <= 0)
-            {
-                canPlayCard = true;
-            }
-            else
-            {
-                GameManager.main.ResolveAction();
-                PlayAction(actionsLeft);
-            }
-        });
     }
 
     public void DrawHand(List<Card> hand)
@@ -97,6 +77,7 @@ public class UICardManager : MonoBehaviour
         {
             Actions = card.Actions.Select((action) => new UICardActionData
             {
+                Type = action.ActionType,
                 Icon = actionIcons.FirstOrDefault(icon => icon.Type == action.ActionType).Sprite,
                 Count = action.ActionAmount
             }).ToList(),

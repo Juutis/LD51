@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CameraRotator : MonoBehaviour
 {
+    private bool playing = false;
+    private float rotateSpeed = 8.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +15,16 @@ public class CameraRotator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(Vector3.up, 0.0f * Time.deltaTime);
+        if (playing) {
+            transform.Rotate(Vector3.down, rotateSpeed * Time.deltaTime);
+        }
+    }
+
+    public void Play() {
+        playing = true;
+    }
+
+    public void Stop() {
+        playing = false;
     }
 }

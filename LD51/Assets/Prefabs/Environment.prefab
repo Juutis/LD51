@@ -179,10 +179,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8174569700488038147}
   - {fileID: 5833031573801521843}
+  - {fileID: 104537818466389864}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7051756995964880023
 GameObject:
@@ -504,6 +504,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Colosseum
       objectReference: {fileID: 0}
+    - target: {fileID: 3285057480226523764, guid: dee2088da0818b247a0d9f89533e4019,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6743116921042764319, guid: dee2088da0818b247a0d9f89533e4019,
         type: 3}
       propertyPath: m_RootOrder
@@ -562,9 +567,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: dee2088da0818b247a0d9f89533e4019, type: 3}
---- !u!4 &8174569700488038147 stripped
+--- !u!4 &104537818466389864 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 6743116921042764319, guid: dee2088da0818b247a0d9f89533e4019,
+  m_CorrespondingSourceObject: {fileID: 3285057480226523764, guid: dee2088da0818b247a0d9f89533e4019,
     type: 3}
   m_PrefabInstance: {fileID: 3235197275507311900}
   m_PrefabAsset: {fileID: 0}

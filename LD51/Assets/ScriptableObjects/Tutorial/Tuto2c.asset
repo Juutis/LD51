@@ -10,16 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70b018355ba49f249b6e0d7363288110, type: 3}
-  m_Name: FullHeal
+  m_Name: Tuto2c
   m_EditorClassIdentifier: 
   Card:
     Actions:
-    - ActionType: 3
-      ActionAmount: 1
-    - ActionType: 2
-      ActionAmount: 1
-    - ActionType: 2
-      ActionAmount: 1
     - ActionType: 2
       ActionAmount: 1
     - ActionType: 3

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     {
         enemySpawn = GameObject.FindGameObjectWithTag("EnemySpawn").transform;
         worldRotator = GameObject.FindGameObjectWithTag("Environment Rotator").transform;
+        UIManager.main.SetPlayerCharacter(playerActionResolver.GetComponent<Character>());
     }
 
     public int GetPlayerRemainingActions()

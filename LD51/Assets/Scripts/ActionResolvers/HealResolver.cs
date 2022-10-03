@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Character))]
-public class HealResolver : MonoBehaviour
+public class HealResolver : MonoBehaviour, IActionResolver
 {
     private Character character;
 
@@ -12,14 +12,15 @@ public class HealResolver : MonoBehaviour
         character = GetComponent<Character>();
     }
 
-    public void ResolveTargetAction(int actionAmount)
+    public CardEffect ResolveTargetAction(int actionAmount)
     {
-        character.Heal(actionAmount);
+        return CardEffect.None;
     }
 
-    public void ResolveSelfAction(int actionAmount)
+    public CardEffect ResolveSelfAction(int actionAmount)
     {
-
+        character.Heal(actionAmount);
+        return CardEffect.Healed;
     }
 
     public CardActionType GetActionType()

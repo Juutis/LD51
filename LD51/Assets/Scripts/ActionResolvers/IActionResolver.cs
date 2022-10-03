@@ -16,5 +16,6 @@ public enum CardEffect
     Dead,   // Caster is dead
     Killed, // Target was skilled
     Damaged,
+    Healed,
     None
 };

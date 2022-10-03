@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,7 +43,15 @@ public class UIManager : MonoBehaviour
     private int playerHealth = 10;
 
     private float basicUIBreakDuration = 0.4f;
+    private bool enemyKilled = false;
+    private List<CardEffectInContext> effects = new();
 
+    private Character currentEnemy;
+    private Character player;
+
+    bool playerKilled = false;
+    public GameObject YouDied, YouWin;
+    bool playerWasKilled = false;
 
     private void Start()
     {
@@ -52,8 +61,6 @@ public class UIManager : MonoBehaviour
         skipRoundButton.SetInactive();
     }
 
-    private Character currentEnemy;
-
     public void NewEnemy()
     {
         currentEnemy = GameManager.main.ProcessNewEnemy();
@@ -62,6 +69,11 @@ public class UIManager : MonoBehaviour
         UITimelineBar.main.Clear();
         Invoke("NextRoundDelayed", 3f);
         Invoke("ShowEnemyHealth", 3f);
+    }
+    
+    public void SetPlayerCharacter(Character p)
+    {
+        player = p;
     }
 
     public void NextRoundDelayed()
@@ -151,17 +163,13 @@ public class UIManager : MonoBehaviour
     {
         UICardManager.main.AnimateEnemyCard(enemyCard, callback);
     }
-
-    bool enemyKilled = false;
-    bool playerKilled = false;
-    public GameObject YouDied, YouWin;
+    
     public void EnemyWasKilled()
     {
         Debug.Log("Enemy was killed!");
         enemyKilled = true;
     }
 
-    bool playerWasKilled = false;
     public void PlayerWasKilled()
     {
         UICardManager.main.SetHandInactive();
@@ -252,11 +260,50 @@ public class UIManager : MonoBehaviour
         else if (effects.Count > 0)
         {
             isAnimating = true;
-            animatedEffect = effects[0];
+            HandleHPEffects(TimelineType.Player);
+            HandleHPEffects(TimelineType.Enemy);
+            if (effects.Count > 0)
+            {
+                animatedEffect = effects[0];
+            }
+        }
+
+        player.ClampHP();
+        currentEnemy?.ClampHP();
+    }
+
+    private void HandleHPEffects(TimelineType type)
+    {
+        int totalHPChange = 0;
+        List<CardEffectInContext> handledCards = new();
+        TimelineType damageType = type == TimelineType.Player ? TimelineType.Enemy : TimelineType.Player; 
+
+        foreach (CardEffectInContext effectContext in effects)
+        {
+            if (effectContext.Effect == CardEffect.Healed && effectContext.Type == type)
+            {
+                totalHPChange += effectContext.Amount;
+                handledCards.Add(effectContext);
+            }
+            else if (effectContext.Effect == CardEffect.Damaged && effectContext.Type == damageType)
+            {
+                totalHPChange -= effectContext.Amount;
+                handledCards.Add(effectContext);
+            }
+        }
+
+        handledCards.ForEach(x => effects.Remove(x));
+
+        if (totalHPChange <= 0 && handledCards.Count > 0)
+        {
+            effects.Add(new() { Amount = -totalHPChange, Effect = CardEffect.Damaged, Type = damageType });
+        }
+        else if (totalHPChange > 0 && handledCards.Count > 0)
+        {
+            effects.Add(new() { Amount = totalHPChange, Effect = CardEffect.Healed, Type = type });
         }
     }
 
-    private List<CardEffectInContext> effects = new();
     public void AddEffect(CardEffectInContext effect)
     {
         if (effect == null || effect.Effect == CardEffect.None)
@@ -271,6 +318,17 @@ public class UIManager : MonoBehaviour
     private void ProcessCardEffect(CardEffectInContext effect)
     {
         Debug.Log($"Processing effect: {effect.Effect} |{effect.Type} | {effect.Amount}");
+        if (effect.Effect == CardEffect.Healed)
+        {
+            if (effect.Type == TimelineType.Enemy)
+            {
+                UIManager.main.ShowEnemyTakeDamage(-effect.Amount);
+            }
+            else
+            {
+                UIManager.main.ShowPlayerTakeDamage(-effect.Amount);
+            }
+        }
         if (effect.Effect == CardEffect.Damaged || effect.Effect == CardEffect.Killed)
         {
             if (effect.Type == TimelineType.Enemy)
@@ -315,14 +373,23 @@ public class UIManager : MonoBehaviour
 
     public void ShowEnemyTakeDamage(int damage)
     {
-        Debug.Log("Enemy take damage: " + damage);
-        ShowPoppingText(enemyPoppingTextPosition.position, $"-{damage}", AnimationDirection.Right, Color.red);
+        // Debug.Log("Enemy take damage: " + damage);
+        Color textColor = damage > 0 ? Color.red : Color.green;
+        textColor = damage == 0 ? Color.white : textColor;
+        string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
+        damageText = damage == 0 ? "�0" : damageText;
+        ShowPoppingText(enemyPoppingTextPosition.position, damageText, AnimationDirection.Right, textColor);
         enemyHealthDisplay.AnimateChange(-damage);
     }
 
     public void ShowPlayerTakeDamage(int damage)
     {
-        ShowPoppingText(playerPoppingTextPosition.position, $"-{damage}", AnimationDirection.Left, Color.red);
+        // Debug.Log("Player take damage: " + damage);
+        Color textColor = damage > 0 ? Color.red : Color.green;
+        textColor = damage == 0 ? Color.white : textColor;
+        string damageText = damage > 0 ? $"-{damage}" : $"+{-damage}";
+        damageText = damage == 0 ? "�0" : damageText;
+        ShowPoppingText(playerPoppingTextPosition.position, damageText, AnimationDirection.Left, textColor);
         playerHealthDisplay.AnimateChange(-damage);
     }
 

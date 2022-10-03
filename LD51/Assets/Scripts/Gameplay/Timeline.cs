@@ -100,9 +100,18 @@ public class Timeline
                 }
             }
             CardEffectInContext effect = new CardEffectInContext();
-            effect.Effect = fromTargetEffect;
-            effect.Type = Type;
-            effect.Amount = action.ActionAmount;
+            if (fromTargetEffect != CardEffect.None)
+            {
+                effect.Effect = fromTargetEffect;
+                effect.Type = Type;
+                effect.Amount = action.ActionAmount;
+            }
+            else
+            {
+                effect.Effect = fromSelfEffect;
+                effect.Type = Type;
+                effect.Amount = action.ActionAmount;
+            }
             return effect;
         }
         return noneEffect;

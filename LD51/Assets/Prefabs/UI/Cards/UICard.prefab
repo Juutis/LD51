@@ -145,6 +145,12 @@ MonoBehaviour:
     type: 3}
   txtCardCost: {fileID: 6386981460787846817}
   imgCardCostBg: {fileID: 2116204108841834721}
+  grayscaleMaterial: {fileID: 2100000, guid: fb645393591eb0d41bbd3b7416c6ba33, type: 2}
+  grayScaledImages:
+  - {fileID: 220127177181224713}
+  - {fileID: 2116204108841834721}
+  - {fileID: 3746246416683210617}
+  - {fileID: 2491190861891088599}
 --- !u!95 &4772921752002658759
 Animator:
   serializedVersion: 4
